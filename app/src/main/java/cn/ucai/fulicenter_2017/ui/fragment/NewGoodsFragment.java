@@ -31,10 +31,6 @@ import cn.ucai.fulicenter_2017.ui.adapter.NewGoodsAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class NewGoodsFragment extends Fragment {
-    final static int ACTION_DOWNLOAD=0;
-    final static int ACTION_PULL_DOWN =1;
-    final static int ACTION_PULL_UP=2;
-
     NewGoodsAdapter adapter;
     IGoodsModel model;
     GridLayoutManager gm;
@@ -73,7 +69,7 @@ public class NewGoodsFragment extends Fragment {
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(gm);
         initViw();
-        loadData(mPageId,ACTION_DOWNLOAD);
+        loadData(mPageId);
         setListener();
     }
 
@@ -99,7 +95,7 @@ public class NewGoodsFragment extends Fragment {
                 int lastVisibleItemPosition = gm.findLastVisibleItemPosition();
                 if(lastVisibleItemPosition==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
                     mPageId++;
-                    loadData(mPageId,ACTION_PULL_UP);
+                    loadData(mPageId);
                 }
 
             }
@@ -113,43 +109,26 @@ public class NewGoodsFragment extends Fragment {
                 srfl.setRefreshing(true);
                 tvDown.setVisibility(View.VISIBLE);
                 mPageId=1;
-                loadData(mPageId, ACTION_PULL_DOWN);
+                loadData(mPageId);
             }
         });
     }
 
-    public void loadData(int pageId, final int action) {
+    public void loadData(int pageId) {
         model.loadNewGoodsData(getContext(), catId, pageId, mPageSize,
                 new OnCompleteListener<NewGoodsBean[]>() {
-
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
-                        ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
-                        updateUI(list);
-                        adapter.setMore(result!=null&&result.length>0);
-                         if(!adapter.isMore()){
-                             if(action==ACTION_PULL_UP){
-                                 adapter.setFootText("没有更多数据");
-                             }
-                             return ;
-                         }
-                       // ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
-                        adapter.setFootText("加载更多数据");
-                        switch (action){
-                            case ACTION_DOWNLOAD:
-                                    break;
-                            case ACTION_PULL_DOWN:
-                                    tvDown.setVisibility(View.GONE);
-                                    srfl.setRefreshing(false);
-                                    break;
-                            case  ACTION_PULL_UP:
-                                adapter.addList(list);
-                                    break;
-                            }
-
+                        tvDown.setVisibility(View.GONE);
+                        srfl.setRefreshing(false);
+                        if(result!=null){
+                            ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
+                            updateUI(list);
                         }
-
-
+                        if(adapter!=null){
+                            adapter.setMore(result!=null&&result.length>0);
+                        }
+                        }
                     @Override
                     public void onError(String error) {
                         L.e("main", "error" + error);
@@ -164,6 +143,9 @@ public class NewGoodsFragment extends Fragment {
         if (adapter == null) {
             adapter = new NewGoodsAdapter(getContext(), list);
             rvGoods.setAdapter(adapter);
+        }else{
+            adapter.addList(list);
+
         }
 
     }
