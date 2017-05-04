@@ -42,6 +42,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setFootText(String footText) {
         this.footText = footText;
+        notifyDataSetChanged();
     }
 
     public NewGoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
@@ -87,6 +88,11 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
+    }
+
+    public void addList(ArrayList<NewGoodsBean> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     class GoodsViewHolder extends RecyclerView.ViewHolder {

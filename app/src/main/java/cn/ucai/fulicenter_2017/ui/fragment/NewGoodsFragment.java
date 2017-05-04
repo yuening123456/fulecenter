@@ -32,7 +32,7 @@ import cn.ucai.fulicenter_2017.ui.adapter.NewGoodsAdapter;
  */
 public class NewGoodsFragment extends Fragment {
     final static int ACTION_DOWNLOAD=0;
-    final static int ACTION_PULLDOWN=1;
+    final static int ACTION_PULL_DOWN =1;
     final static int ACTION_PULL_UP=2;
 
     NewGoodsAdapter adapter;
@@ -46,7 +46,9 @@ public class NewGoodsFragment extends Fragment {
     SwipeRefreshLayout srfl;
     Unbinder unbinder;
 
-    int mPageId=1;
+    int mPageId=I.PAGE_ID_DEFAULT;
+    int catId=I.CAT_ID;
+    int mPageSize=I.PAGE_SIZE_DEFAULT;
 
     public NewGoodsFragment() {
         // Required empty public constructor
@@ -70,12 +72,38 @@ public class NewGoodsFragment extends Fragment {
         model = new GoodsModel();
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(gm);
+        initViw();
         loadData(mPageId,ACTION_DOWNLOAD);
         setListener();
     }
 
+    private void initViw() {
+        srfl.setColorSchemeColors(
+                getResources().getColor(R.color.google_blue),
+                getResources().getColor(R.color.google_red),
+                getResources().getColor(R.color.google_green),
+                getResources().getColor(R.color.google_yellow));
+
+    }
+
     private void setListener() {
         setPullDownListener();
+        setPullUpListener();
+    }
+
+    private void setPullUpListener() {
+        rvGoods.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int lastVisibleItemPosition = gm.findLastVisibleItemPosition();
+                if(lastVisibleItemPosition==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
+                    mPageId++;
+                    loadData(mPageId,ACTION_PULL_UP);
+                }
+
+            }
+        });
     }
 
     private void setPullDownListener() {
@@ -85,14 +113,15 @@ public class NewGoodsFragment extends Fragment {
                 srfl.setRefreshing(true);
                 tvDown.setVisibility(View.VISIBLE);
                 mPageId=1;
-                loadData(mPageId,ACTION_PULLDOWN);
+                loadData(mPageId, ACTION_PULL_DOWN);
             }
         });
     }
 
     public void loadData(int pageId, final int action) {
-        model.loadNewGoodsData(getContext(), 0, pageId, 10,
+        model.loadNewGoodsData(getContext(), catId, pageId, mPageSize,
                 new OnCompleteListener<NewGoodsBean[]>() {
+
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
                         ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
@@ -104,16 +133,18 @@ public class NewGoodsFragment extends Fragment {
                              }
                              return ;
                          }
+                       // ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
                         adapter.setFootText("加载更多数据");
                         switch (action){
                             case ACTION_DOWNLOAD:
                                     break;
-                                case ACTION_PULLDOWN:
+                            case ACTION_PULL_DOWN:
                                     tvDown.setVisibility(View.GONE);
                                     srfl.setRefreshing(false);
                                     break;
                             case  ACTION_PULL_UP:
-                                break;
+                                adapter.addList(list);
+                                    break;
                             }
 
                         }
