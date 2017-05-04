@@ -8,10 +8,13 @@ import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.data.bean.NewGoodsBean;
 import cn.ucai.fulicenter_2017.data.net.GoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
+import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.data.utils.OkHttpUtils;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,25 +30,20 @@ public class MainActivity extends AppCompatActivity {
     public void testDownLoadData(){
         IGoodsModel model=new GoodsModel();
         model.loadNewGoodsData(MainActivity.this, 0, 1, 10,
-                new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
-            @Override
-            public void onSuccess(NewGoodsBean[] result) {
-                L.e("main","result"+result);
-                if(result!=null){
-
-                    for (NewGoodsBean goods : result) {
-                        L.e("main",goods.toString());
+                new OnCompleteListener<NewGoodsBean[]>() {
+                    @Override
+                    public void onSuccess(NewGoodsBean[] result) {
+                        if(result!=null){
+                            L.e("main","result"+result);
+                        }
                     }
-                }
 
-            }
+                    @Override
+                    public void onError(String error) {
+                        L.e("main","error"+error);
 
-            @Override
-            public void onError(String error) {
-                L.e("main","error"+error);
-
-            }
-        });
+                    }
+                });
 
     }
 }
