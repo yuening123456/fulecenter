@@ -3,7 +3,8 @@ package cn.ucai.fulicenter_2017.data.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import cn.ucai.fulicenter.application.FuLiCenterApplication;
+import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
+
 
 /**
  * Created by clawpo on 2017/3/21.
