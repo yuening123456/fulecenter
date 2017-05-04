@@ -1,7 +1,6 @@
-package cn.ucai.fulicenter_2017.data.net.adapter;
+package cn.ucai.fulicenter_2017.ui.adapter;
 
 import android.content.Context;
-import android.media.ImageReader;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;

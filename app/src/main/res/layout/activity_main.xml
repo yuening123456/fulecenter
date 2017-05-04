@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <RadioGroup
+    android:id="@+id/layoutMenu"
     android:layout_alignParentBottom="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -46,4 +47,9 @@
         android:button="@null"
         android:checked="false"/>
 </RadioGroup>
+    <FrameLayout
+        android:id="@+id/layoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layoutMenu"/>
 </RelativeLayout>
