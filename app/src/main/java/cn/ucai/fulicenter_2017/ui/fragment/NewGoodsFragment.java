@@ -31,7 +31,9 @@ import cn.ucai.fulicenter_2017.ui.adapter.NewGoodsAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class NewGoodsFragment extends Fragment {
-
+    final static int ACTION_DOWNLOAD=0;
+    final static int ACTION_PULLDOWN=1;
+    final static int ACTION_PULL_UP=2;
 
     NewGoodsAdapter adapter;
     IGoodsModel model;
@@ -44,6 +46,7 @@ public class NewGoodsFragment extends Fragment {
     SwipeRefreshLayout srfl;
     Unbinder unbinder;
 
+    int mPageId=1;
 
     public NewGoodsFragment() {
         // Required empty public constructor
@@ -67,24 +70,60 @@ public class NewGoodsFragment extends Fragment {
         model = new GoodsModel();
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(gm);
-        loadData();
+        loadData(mPageId,ACTION_DOWNLOAD);
+        setListener();
     }
 
-    public void loadData() {
-        model.loadNewGoodsData(getContext(), 0, 1, 10,
+    private void setListener() {
+        setPullDownListener();
+    }
+
+    private void setPullDownListener() {
+        srfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srfl.setRefreshing(true);
+                tvDown.setVisibility(View.VISIBLE);
+                mPageId=1;
+                loadData(mPageId,ACTION_PULLDOWN);
+            }
+        });
+    }
+
+    public void loadData(int pageId, final int action) {
+        model.loadNewGoodsData(getContext(), 0, pageId, 10,
                 new OnCompleteListener<NewGoodsBean[]>() {
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
-                        if (result != null) {
-                            L.e("main", "result" + result);
-                            ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
-                            updateUI(list);
+                        ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
+                        updateUI(list);
+                        adapter.setMore(result!=null&&result.length>0);
+                         if(!adapter.isMore()){
+                             if(action==ACTION_PULL_UP){
+                                 adapter.setFootText("没有更多数据");
+                             }
+                             return ;
+                         }
+                        adapter.setFootText("加载更多数据");
+                        switch (action){
+                            case ACTION_DOWNLOAD:
+                                    break;
+                                case ACTION_PULLDOWN:
+                                    tvDown.setVisibility(View.GONE);
+                                    srfl.setRefreshing(false);
+                                    break;
+                            case  ACTION_PULL_UP:
+                                break;
+                            }
+
                         }
-                    }
+
+
                     @Override
                     public void onError(String error) {
                         L.e("main", "error" + error);
-
+                        tvDown.setVisibility(View.GONE);
+                        srfl.setRefreshing(false);
                     }
                 });
 
