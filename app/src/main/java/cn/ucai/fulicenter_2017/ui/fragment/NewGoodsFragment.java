@@ -1,7 +1,9 @@
 package cn.ucai.fulicenter_2017.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -41,11 +43,13 @@ public class NewGoodsFragment extends Fragment {
     @BindView(R.id.srfl)
     SwipeRefreshLayout srfl;
     Unbinder unbinder;
+    @BindView(R.id.tv_nore)
+    TextView tv_nore;
 
     int mPageId=I.PAGE_ID_DEFAULT;
     int catId=I.CAT_ID;
     int mPageSize=I.PAGE_SIZE_DEFAULT;
-
+    ProgressDialog pd;
     public NewGoodsFragment() {
         // Required empty public constructor
     }
@@ -64,6 +68,7 @@ public class NewGoodsFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        initDialog();
         super.onActivityCreated(savedInstanceState);
         model = new GoodsModel();
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
@@ -71,6 +76,12 @@ public class NewGoodsFragment extends Fragment {
         initViw();
         loadData(mPageId);
         setListener();
+    }
+
+    private void initDialog() {
+        pd = new ProgressDialog(getContext());
+        pd.setMessage(getString (R.string .load_more));
+        pd.show();
     }
 
     private void initViw() {
@@ -93,7 +104,7 @@ public class NewGoodsFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastVisibleItemPosition = gm.findLastVisibleItemPosition();
-                if(lastVisibleItemPosition==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
+                if(adapter!=null&&lastVisibleItemPosition==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
                     mPageId++;
                     loadData(mPageId);
                 }
@@ -119,11 +130,19 @@ public class NewGoodsFragment extends Fragment {
                 new OnCompleteListener<NewGoodsBean[]>() {
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
+                       /* pd.dismiss();*/
                         tvDown.setVisibility(View.GONE);
+                        tv_nore.setVisibility(View.GONE);
                         srfl.setRefreshing(false);
+                        srfl.setVisibility(View.VISIBLE);
                         if(result!=null){
                             ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
                             updateUI(list);
+                        }else{
+                            if(adapter==null||adapter.getItemCount()==1){
+                                tv_nore.setVisibility(View.VISIBLE);
+                                srfl.setVisibility(View.GONE);
+                            }
                         }
                         if(adapter!=null){
                             adapter.setMore(result!=null&&result.length>0);
@@ -132,8 +151,13 @@ public class NewGoodsFragment extends Fragment {
                     @Override
                     public void onError(String error) {
                         L.e("main", "error" + error);
-                        tvDown.setVisibility(View.GONE);
                         srfl.setRefreshing(false);
+                        tvDown.setVisibility(View.GONE);
+                        if(adapter==null||adapter.getItemCount()==1){
+                            tv_nore.setVisibility(View.VISIBLE);
+
+                        }
+
                     }
                 });
 
