@@ -30,8 +30,9 @@ public class BoutiqueChild_Activity extends AppCompatActivity {
         bind=ButterKnife.bind(this);
         int catId=getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID,I.CAT_ID);
         String title=getIntent().getStringExtra(I.Boutique.TITLE);
-        /*getSupportFragmentManager().beginTransaction()
+        tvCommonTitle.setText(title);
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.layoutFragment,new NewGoodsFragment(catId))
-                .commit()*/
+                .commit();
     }
 }

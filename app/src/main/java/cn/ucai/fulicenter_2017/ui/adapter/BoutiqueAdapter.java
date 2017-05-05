@@ -52,7 +52,6 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<BoutiqueAdapter.Boutiq
                 .putExtra(I.NewAndBoutiqueGoods.CAT_ID,bean.getId())
                 .putExtra(I.Boutique.TITLE,bean.getTitle()));
 
-
             }
         });
 

@@ -58,6 +58,9 @@ public class NewGoodsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public NewGoodsFragment(int catId) {
+        this.catId = catId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
