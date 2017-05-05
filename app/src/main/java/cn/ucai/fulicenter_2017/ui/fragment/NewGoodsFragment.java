@@ -130,16 +130,16 @@ public class NewGoodsFragment extends Fragment {
         srfl.setRefreshing(visibility);
         tvDown.setVisibility(visibility?View.VISIBLE:View.GONE);
     }
-    void setListVisibility(boolean visility){
-        tv_nore.setVisibility(visility?View.GONE:View.VISIBLE);
-        srfl.setVisibility(visility?View.VISIBLE:View.GONE);
+    void setListVisibility(boolean visibility){
+        tv_nore.setVisibility(visibility?View.GONE:View.VISIBLE);
+        srfl.setVisibility(visibility?View.VISIBLE:View.GONE);
     }
 
     @OnClick(R.id.tv_nore)
     public void reloadData(){
         pd.show();
         loadData();
-        L.e("main","adfasf");
+
     }
 
     public void loadData() {
