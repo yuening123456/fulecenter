@@ -2,12 +2,14 @@ package cn.ucai.fulicenter_2017.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.I;
@@ -34,5 +36,17 @@ public class BoutiqueChild_Activity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layoutFragment,new NewGoodsFragment(catId))
                 .commit();
+    }
+    @OnClick(R.id.backClickArea)
+    public void onClick(View view){
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(bind!=null){
+            bind.unbind();
+        }
     }
 }
