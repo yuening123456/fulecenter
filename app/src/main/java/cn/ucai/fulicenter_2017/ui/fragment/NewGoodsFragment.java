@@ -29,6 +29,7 @@ import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.data.utils.ResultUtils;
 import cn.ucai.fulicenter_2017.ui.adapter.NewGoodsAdapter;
+import cn.ucai.fulicenter_2017.ui.view.SpaceItemDecoration;
 
 import static android.R.attr.onClick;
 
@@ -88,6 +89,8 @@ public class NewGoodsFragment extends Fragment {
     private void initViw() {
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(gm);
+        rvGoods.addItemDecoration(new SpaceItemDecoration(15));
+        //设置item的间距
         gm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
