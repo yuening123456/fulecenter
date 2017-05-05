@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private void showFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.add(R.id.layoutFragment,goodsFragment)
-                .add(R.id.layoutFragment,boutiqueFragment)
+        ft.add(R.id.layoutFragment,mFragment[0])
+                .add(R.id.layoutFragment,mFragment[1])
                 .show(goodsFragment)
                 .hide(boutiqueFragment)
                 .commit();
