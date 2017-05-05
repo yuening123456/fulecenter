@@ -196,7 +196,6 @@ public class NewGoodsFragment extends Fragment {
         if (adapter == null) {
             adapter = new NewGoodsAdapter(getContext(), list);
             rvGoods.setAdapter(adapter);
-
         }else{
             adapter.addList(list);
 
