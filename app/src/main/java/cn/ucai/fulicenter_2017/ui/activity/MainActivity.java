@@ -61,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private void setFragment() {
         if(index!=currentIndex){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.layoutFragment,mFragment[index]).commit();
+          ft.hide(mFragment[currentIndex]);
+           if(!mFragment[index].isAdded()){
+               ft.add(R.id.layoutFragment,mFragment[index]);
+           }
+           ft.show(mFragment[index]);
+            ft.commit();
             currentIndex=index;
 
         }
