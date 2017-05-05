@@ -71,11 +71,9 @@ public class NewGoodsFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        initDialog();
         super.onActivityCreated(savedInstanceState);
+        initDialog();
         model = new GoodsModel();
-        gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
-        rvGoods.setLayoutManager(gm);
         initViw();
         loadData();
         setListener();
@@ -88,6 +86,18 @@ public class NewGoodsFragment extends Fragment {
     }
 
     private void initViw() {
+        gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
+        rvGoods.setLayoutManager(gm);
+        gm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                L.i("main","size"+position);
+                if(adapter==null||position==adapter.getItemCount()-1){
+                    return I.COLUM_NUM;
+                }
+                return 1;
+            }
+        });
         srfl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_red),
