@@ -64,7 +64,6 @@ public class NewGoodsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_goods, container, false);
-
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -94,7 +93,7 @@ public class NewGoodsFragment extends Fragment {
         gm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                L.i("main","size"+position);
+             //   L.i("main","size"+position);
                 if(adapter==null||position==adapter.getItemCount()-1){
                     return I.COLUM_NUM;
                 }
