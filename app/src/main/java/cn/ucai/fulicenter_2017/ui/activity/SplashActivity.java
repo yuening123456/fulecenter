@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -17,12 +18,12 @@ public class SplashActivity extends AppCompatActivity {
     MyCountDownTimer countDownTimer;
     @BindView(R.id.skip)
     TextView skip;
-
+    Unbinder unbinder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
+        unbinder=ButterKnife.bind(this);
         countDownTimer = new MyCountDownTimer(time, 1000);
         countDownTimer.start();
 
@@ -50,5 +51,10 @@ public class SplashActivity extends AppCompatActivity {
             finish();
 
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

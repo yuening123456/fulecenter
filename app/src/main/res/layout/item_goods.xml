@@ -3,25 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-       <ImageView
-           android:layout_width="match_parent"
-           android:layout_height="200dp"
-           android:id="@+id/ivAvatar"
-           android:src="@drawable/nopic" />
+    >
        <TextView
+           android:layout_width="5dp"
+           android:layout_height="match_parent"
+           android:background="#ccc"
+           android:layout_gravity="right"/>
+       <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="shang"
-           android:textSize="19sp"
-           android:id="@+id/tvUserName"
-           android:gravity="center_horizontal"/>
-       <TextView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="￥13"
-           android:textSize="19sp"
-           android:gravity="center_horizontal"
-           android:id="@+id/tvPrice"/>
+           android:orientation="vertical">
+              <ImageView
+                  android:id="@+id/ivAvatar"
+                  android:layout_width="match_parent"
+                  android:layout_height="250dp"
+                  android:src="@drawable/nopic" />
+
+              <TextView
+                  android:id="@+id/tvUserName"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_horizontal"
+                  android:text="shang"
+                  android:textSize="15sp" />
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="￥13"
+                  android:textSize="19sp"
+                  android:gravity="center_horizontal"
+                  android:id="@+id/tvPrice"/>
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="5dp"
+                  android:background="#ccc"
+                  android:layout_gravity="bottom"/>
+       </LinearLayout>
+
 
 </LinearLayout>

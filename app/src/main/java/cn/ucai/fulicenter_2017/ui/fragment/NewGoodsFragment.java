@@ -128,7 +128,7 @@ public class NewGoodsFragment extends Fragment {
                         if(adapter!=null){
                             adapter.setMore(result!=null&&result.length>0);
                         }
-                        }
+                    }
                     @Override
                     public void onError(String error) {
                         L.e("main", "error" + error);
