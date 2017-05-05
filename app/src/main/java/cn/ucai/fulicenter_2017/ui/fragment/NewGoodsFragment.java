@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.I;
@@ -28,6 +29,8 @@ import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.data.utils.ResultUtils;
 import cn.ucai.fulicenter_2017.ui.adapter.NewGoodsAdapter;
+
+import static android.R.attr.onClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,7 +77,7 @@ public class NewGoodsFragment extends Fragment {
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(gm);
         initViw();
-        loadData(mPageId);
+        loadData();
         setListener();
     }
 
@@ -106,7 +109,7 @@ public class NewGoodsFragment extends Fragment {
                 int lastVisibleItemPosition = gm.findLastVisibleItemPosition();
                 if(adapter!=null&&lastVisibleItemPosition==adapter.getItemCount()-1&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
                     mPageId++;
-                    loadData(mPageId);
+                    loadData();
                 }
 
             }
@@ -117,31 +120,45 @@ public class NewGoodsFragment extends Fragment {
         srfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                srfl.setRefreshing(true);
-                tvDown.setVisibility(View.VISIBLE);
+              setLayoutVisibility(true);
                 mPageId=1;
-                loadData(mPageId);
+                loadData();
             }
         });
     }
+    void setLayoutVisibility(boolean visibility){
+        srfl.setRefreshing(visibility);
+        tvDown.setVisibility(visibility?View.VISIBLE:View.GONE);
+    }
+    void setListVisibility(boolean visility){
+        tv_nore.setVisibility(visility?View.GONE:View.VISIBLE);
+        srfl.setVisibility(visility?View.VISIBLE:View.GONE);
+    }
 
-    public void loadData(int pageId) {
-        model.loadNewGoodsData(getContext(), catId, pageId, mPageSize,
+    @OnClick(R.id.tv_nore)
+    public void reloadData(){
+        pd.show();
+        loadData();
+        L.e("main","adfasf");
+    }
+
+    public void loadData() {
+        model.loadNewGoodsData(getContext(), catId, mPageId, mPageSize,
                 new OnCompleteListener<NewGoodsBean[]>() {
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
-                       /* pd.dismiss();*/
-                        tvDown.setVisibility(View.GONE);
-                        tv_nore.setVisibility(View.GONE);
-                        srfl.setRefreshing(false);
-                        srfl.setVisibility(View.VISIBLE);
+                        pd.dismiss();
+                        setLayoutVisibility(false);
+                        setListVisibility(true);
                         if(result!=null){
                             ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
+                            if(mPageId==1){
+                                adapter=null;
+                            }
                             updateUI(list);
                         }else{
                             if(adapter==null||adapter.getItemCount()==1){
-                                tv_nore.setVisibility(View.VISIBLE);
-                                srfl.setVisibility(View.GONE);
+                                setListVisibility(false);
                             }
                         }
                         if(adapter!=null){
@@ -154,7 +171,7 @@ public class NewGoodsFragment extends Fragment {
                         srfl.setRefreshing(false);
                         tvDown.setVisibility(View.GONE);
                         if(adapter==null||adapter.getItemCount()==1){
-                            tv_nore.setVisibility(View.VISIBLE);
+                           setListVisibility(false);
 
                         }
 
