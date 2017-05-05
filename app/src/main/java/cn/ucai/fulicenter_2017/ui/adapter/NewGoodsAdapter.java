@@ -91,6 +91,11 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
+    public void initData(ArrayList<NewGoodsBean> list) {
+        this.list.clear();
+        this.list.addAll(list);
+        notifyDataSetChanged();
+    }
 
 
     class GoodsViewHolder extends RecyclerView.ViewHolder {

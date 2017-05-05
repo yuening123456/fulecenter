@@ -166,7 +166,7 @@ public class NewGoodsFragment extends Fragment {
                         if(result!=null){
                             ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
                             if(mPageId==1){
-                                adapter=null;
+                               adapter=null;
                             }
                             updateUI(list);
                         }else{
