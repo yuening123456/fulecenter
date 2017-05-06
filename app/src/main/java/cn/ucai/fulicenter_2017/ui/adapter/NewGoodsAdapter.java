@@ -67,6 +67,13 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             goodsViewHolder.tvUserName.setText(bean.getGoodsName());
             goodsViewHolder.tvPrice.setText(bean.getCurrencyPrice());
             ImageLoader.downloadImg(context, goodsViewHolder.ivAvatar, bean.getGoodsThumb());
+            goodsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, GoodDetailsActivity.class)
+                            .putExtra(I.GoodsDetails.KEY_GOODS_ID,bean.getGoodsId()));
+                }
+            });
 
         }
     }
