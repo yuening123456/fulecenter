@@ -2,6 +2,8 @@ package cn.ucai.fulicenter_2017.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.I;
@@ -49,25 +52,39 @@ public class GoodDetailsActivity extends AppCompatActivity {
     Unbinder bind;
     IGoodsModel model;
     ArrayList<String> mGoodList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_details);
         bind = ButterKnife.bind(this);
+
         int good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
         model=new GoodsModel();
+
         model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
                setView(result);
+                L.e("main","result"+result.toString());
             }
             @Override
             public void onError(String error) {
 
             }
         });
+        aslv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
 
     }
+
+
+
     private void setView(GoodsDetailsBean result) {
         tvShopPrice.setText(result.getShopPrice());
         tvGoodsName.setText(result.getGoodsName());
@@ -84,7 +101,10 @@ public class GoodDetailsActivity extends AppCompatActivity {
         aslv.startPlay(this,mGoodList,flowIndicator);
 
     }
-
+    @OnClick(R.id.backClickArea)
+    public void back(View view){
+        finish();
+    }
 
 
     @Override

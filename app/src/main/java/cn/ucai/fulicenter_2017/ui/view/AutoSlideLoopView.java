@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,7 +21,6 @@ import java.util.TimerTask;
 import cn.ucai.fulicenter_2017.data.bean.ColorBean;
 import cn.ucai.fulicenter_2017.data.net.GoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
-import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
 import cn.ucai.fulicenter_2017.data.utils.L;
 
@@ -36,6 +36,7 @@ public class AutoSlideLoopView extends ViewPager {
     Timer mTimer;
     ArrayList<String> mGoodsList;
     IGoodsModel model;
+    boolean isBoolean=true;
 
     public Timer getmTimer() {
         return mTimer;
@@ -55,11 +56,29 @@ public class AutoSlideLoopView extends ViewPager {
         initHandler();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch(ev.getAction()){
+            case 0:
+                isBoolean=false;
+                break;
+            case 1:
+                isBoolean=true;
+                break;
+            case 2:
+                isBoolean=false;
+                break;
+
+        }
+        L.e("main","actoin"+ev.getAction());
+        return true;
+    }
+
     private void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                AutoSlideLoopView.this.setCurrentItem(getCurrentItem() + 1);
+                    AutoSlideLoopView.this.setCurrentItem(getCurrentItem() + 1);
             }
         };
     }
@@ -143,9 +162,11 @@ public class AutoSlideLoopView extends ViewPager {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mHandler.sendEmptyMessage(0);
+                if(isBoolean){
+                    mHandler.sendEmptyMessage(0);
+                }
             }
-        }, 0, 3000);
+        }, 0, 2000);
     }
     class MyScroller extends Scroller {
         int duration;
