@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/layout_back_ground"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/orange">
+
+        <ImageView
+            android:id="@+id/backClickArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品详情"
+            android:textSize="15sp"
+            android:id="@+id/tv_common_title"
+            android:textColor="@color/btn_white_normal"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/backClickArea"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_share_bg"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_collect_in"
+            android:layout_toLeftOf="@id/iv_share"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/iv_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_cart_selected"
+            android:layout_toLeftOf="@id/iv_collect"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/layout_back_ground"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="aaaa"
+            android:id="@+id/tv_goodsName"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="aaaa"
+                android:id="@+id/tv_goodsEnglishName"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="$190"
+                android:id="@+id/tv_shopPrice"
+                />
+        </LinearLayout>
+        <cn.ucai.fulicenter_2017.ui.view.AutoSlideLoopView
+            android:id="@+id/aslv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <cn.ucai.fulicenter_2017.ui.view.FlowIndicator
+            android:id="@+id/flowIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:space="15dp"
+            app:r="20dp"
+            app:normal_color="#CCC"
+            app:focus_color="#f00"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="1111"
+            android:textSize="19sp"
+            android:id="@+id/goodsBrief"/>
+
+
+    </LinearLayout>
+</RelativeLayout>

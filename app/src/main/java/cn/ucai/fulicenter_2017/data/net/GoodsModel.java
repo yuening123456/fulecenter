@@ -4,7 +4,10 @@ import android.content.Context;
 
 import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.BoutiqueBean;
+import cn.ucai.fulicenter_2017.data.bean.ColorBean;
+import cn.ucai.fulicenter_2017.data.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter_2017.data.bean.NewGoodsBean;
+import cn.ucai.fulicenter_2017.data.bean.PropertiesBean;
 import cn.ucai.fulicenter_2017.data.utils.OkHttpUtils;
 
 /**
@@ -32,4 +35,17 @@ public class GoodsModel implements IGoodsModel {
                 .execute(listener);
 
     }
+
+    @Override
+    public void loadGoodDetails(Context context, int good_id, OnCompleteListener<GoodsDetailsBean> listener) {
+        OkHttpUtils<GoodsDetailsBean> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
+                .addParam(I.GoodsDetails.KEY_GOODS_ID,String.valueOf(good_id))
+                .targetClass(GoodsDetailsBean.class)
+                .execute(listener);
+    }
+
+
+
+
 }

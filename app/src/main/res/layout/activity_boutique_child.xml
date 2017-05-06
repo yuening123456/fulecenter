@@ -9,8 +9,7 @@
        android:id="@+id/layout_back_ground"
        android:layout_width="match_parent"
        android:layout_height="40dp"
-       android:paddingBottom="8dp"
-       android:paddingTop="8dp"
+
        android:background="@color/orange">
        <ImageView
            android:id="@+id/backClickArea"
