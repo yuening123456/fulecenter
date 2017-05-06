@@ -56,18 +56,35 @@ public class GoodDetailsActivity extends AppCompatActivity {
         bind = ButterKnife.bind(this);
         int good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
         model=new GoodsModel();
-
         model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-              /* setView(result);*/
+               setView(result);
             }
             @Override
             public void onError(String error) {
 
             }
         });
+
     }
+    private void setView(GoodsDetailsBean result) {
+        tvShopPrice.setText(result.getShopPrice());
+        tvGoodsName.setText(result.getGoodsName());
+        tvGoodsEnglishName.setText(result.getGoodsEnglishName());
+        goodsBrief.setText(result.getGoodsBrief());
+        PropertiesBean[] properties = result.getProperties();
+        mGoodList=new ArrayList<>();
+        for (PropertiesBean property : properties) {
+            for (AlbumsBean albumsBean : property.getAlbums()) {
+                mGoodList.add(  albumsBean.getImgUrl());
+            }
+            L.e("main","property"+property.toString());
+        }
+        aslv.startPlay(this,mGoodList,flowIndicator);
+
+    }
+
 
 
     @Override
