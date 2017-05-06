@@ -106,7 +106,6 @@ public class AutoSlideLoopView extends ViewPager {
         Context context;
         ArrayList<String> goodsList;
 
-
         public GoodsAdapter(Context context, ArrayList<String> goodsList) {
             this.context = context;
             this.goodsList = goodsList;
