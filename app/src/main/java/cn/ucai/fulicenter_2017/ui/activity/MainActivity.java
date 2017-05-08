@@ -10,11 +10,13 @@ import android.view.View;
 import cn.ucai.fulicenter_2017.R;
 
 import cn.ucai.fulicenter_2017.ui.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter_2017.ui.fragment.CategoryFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.NewGoodsFragment;
 
 public class MainActivity extends AppCompatActivity {
     NewGoodsFragment goodsFragment;
     BoutiqueFragment boutiqueFragment;
+    CategoryFragment categoryFragment;
     Fragment[] mFragment;
     int currentIndex, index;
 
@@ -31,17 +33,21 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment() {
         goodsFragment=new NewGoodsFragment();
         boutiqueFragment=new BoutiqueFragment();
+        categoryFragment=new CategoryFragment();
         mFragment=new Fragment[5];
         mFragment[0]=goodsFragment;
         mFragment[1]=boutiqueFragment;
+        mFragment[2]=categoryFragment;
     }
     private void showFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(R.id.layoutFragment,mFragment[0])
                 .add(R.id.layoutFragment,mFragment[1])
+                .add(R.id.layoutFragment,mFragment[2])
                 .show(goodsFragment)
                 .hide(boutiqueFragment)
+                .hide(categoryFragment)
                 .commit();
     }
 
@@ -52,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.tvBoutique:
                     index=1;
+                    break;
+                case R.id.tvCategory:
+                    index=2;
                     break;
             }
             setFragment();
