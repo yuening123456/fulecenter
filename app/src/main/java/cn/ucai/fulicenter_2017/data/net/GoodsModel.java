@@ -4,6 +4,8 @@ import android.content.Context;
 
 import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.BoutiqueBean;
+import cn.ucai.fulicenter_2017.data.bean.CategoryChildBean;
+import cn.ucai.fulicenter_2017.data.bean.CategoryGroupBean;
 import cn.ucai.fulicenter_2017.data.bean.ColorBean;
 import cn.ucai.fulicenter_2017.data.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter_2017.data.bean.NewGoodsBean;
@@ -45,7 +47,22 @@ public class GoodsModel implements IGoodsModel {
                 .execute(listener);
     }
 
+    @Override
+    public void loadCategoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]> listener) {
+        OkHttpUtils<CategoryGroupBean[]> utils =new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
+                .targetClass(CategoryGroupBean[].class)
+                .execute(listener);
+    }
 
+    @Override
+    public void loadCategoryChild(Context context, int parentId, OkHttpUtils.OnCompleteListener<CategoryChildBean[]> listener) {
+        OkHttpUtils<CategoryChildBean[]> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
+                .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))
+                .execute(listener);
+
+    }
 
 
 }
