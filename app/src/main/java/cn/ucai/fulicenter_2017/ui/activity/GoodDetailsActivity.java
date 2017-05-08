@@ -52,37 +52,39 @@ public class GoodDetailsActivity extends AppCompatActivity {
     Unbinder bind;
     IGoodsModel model;
     ArrayList<String> mGoodList;
-
+    int good_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_details);
         bind = ButterKnife.bind(this);
-
-        int good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
-        model=new GoodsModel();
-
-        model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
-            @Override
-            public void onSuccess(GoodsDetailsBean result) {
-               setView(result);
-                L.e("main","result"+result.toString());
-            }
-            @Override
-            public void onError(String error) {
-
-            }
-        });
-        aslv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
-
+        good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
+        initData();
     }
 
+
+
+    private void initData() {
+
+        if(good_id==0){
+            finish();
+        }else{
+            model=new GoodsModel();
+            model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
+                @Override
+                public void onSuccess(GoodsDetailsBean result) {
+                    setView(result);
+                    L.e("main","result"+result.toString());
+                }
+                @Override
+                public void onError(String error) {
+                    L.e("main","error"+error);
+
+                }
+            });
+        }
+
+    }
 
 
     private void setView(GoodsDetailsBean result) {
@@ -96,7 +98,6 @@ public class GoodDetailsActivity extends AppCompatActivity {
             for (AlbumsBean albumsBean : property.getAlbums()) {
                 mGoodList.add(  albumsBean.getImgUrl());
             }
-            L.e("main","property"+property.toString());
         }
         aslv.startPlay(this,mGoodList,flowIndicator);
 
