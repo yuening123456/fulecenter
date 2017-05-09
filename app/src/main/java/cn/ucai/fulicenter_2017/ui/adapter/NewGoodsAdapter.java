@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +18,7 @@ import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.NewGoodsBean;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
+import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.ui.activity.GoodDetailsActivity;
 
 /**
@@ -129,5 +132,36 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+    public void sortBy(final int sortBy){
+        Collections.sort(list, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean left, NewGoodsBean right) {
+                int result=0;
+                switch (sortBy){
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(left.getCurrencyPrice()) - getPrice(right.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(right.getCurrencyPrice()) - getPrice(left.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result= (int) (left.getAddTime()-right.getAddTime());
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result= (int) (right.getAddTime()-left.getAddTime());
+                        break;
+                }
+                L.e("main",""+result);
+                return result;
+            }
+
+            private int getPrice(String currencyPrice) {
+                String price = currencyPrice.substring(currencyPrice.indexOf("￥") + 1);
+                L.i("main","getPrice"+price);
+                return  Integer.parseInt(price) ;
+            }
+        });
+    notifyDataSetChanged();
     }
 }

@@ -3,6 +3,7 @@ package cn.ucai.fulicenter_2017.ui.view;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.ucai.fulicenter_2017.data.bean.ColorBean;
 import cn.ucai.fulicenter_2017.data.net.GoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
@@ -38,11 +38,11 @@ public class AutoSlideLoopView extends ViewPager {
     IGoodsModel model;
     boolean isBoolean=true;
 
-    public Timer getmTimer() {
+    public Timer getTimer() {
         return mTimer;
     }
 
-    public void setmTimer(Timer mTimer) {
+    public void setTimer(Timer mTimer) {
         this.mTimer = mTimer;
     }
 
@@ -70,8 +70,8 @@ public class AutoSlideLoopView extends ViewPager {
                 break;
 
         }
-        L.e("main","actoin"+ev.getAction());
-        return true;
+        L.e("main","action"+ev.getAction());
+        return super.onTouchEvent(ev);
     }
 
     private void initHandler() {
@@ -137,7 +137,7 @@ public class AutoSlideLoopView extends ViewPager {
         }
     }
 
-    public void startPlay(Context context, ArrayList<String> goodsList, FlowIndicator flowIndicator) {
+    public void startPlay(Context context, ArrayList<String> goodsList, final FlowIndicator flowIndicator) {
         mGoodsList = goodsList;
         mCount = goodsList.size();
         GoodsAdapter adapter = new GoodsAdapter(context, goodsList);
@@ -161,12 +161,13 @@ public class AutoSlideLoopView extends ViewPager {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(isBoolean){
+                L.e("main","goodList"+mGoodsList.size());
                     mHandler.sendEmptyMessage(0);
-                }
+
             }
-        }, 0, 2000);
+        }, 1000, 2000);
     }
+
     class MyScroller extends Scroller {
         int duration;
 

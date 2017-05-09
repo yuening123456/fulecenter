@@ -118,7 +118,6 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onSuccess(CategoryChildBean[] result) {
                 groupCount++;
-
                 if(result!=null){
                     ArrayList<CategoryChildBean> list=ResultUtils.array2List(result);
                     childList.set(index,list);

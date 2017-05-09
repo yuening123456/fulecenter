@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,14 +42,14 @@ public class GoodDetailsActivity extends AppCompatActivity {
     TextView tvGoodsName;
     @BindView(R.id.tv_goodsEnglishName)
     TextView tvGoodsEnglishName;
-    @BindView(R.id.tv_shopPrice)
-    TextView tvShopPrice;
+    @BindView(R.id.tv_CurrencyPrice)
+    TextView tvCurrencyPrice;
     @BindView(R.id.aslv)
     AutoSlideLoopView aslv;
     @BindView(R.id.flowIndicator)
     FlowIndicator flowIndicator;
     @BindView(R.id.goodsBrief)
-    TextView goodsBrief;
+    WebView goodsBrief;
     Unbinder bind;
     IGoodsModel model;
     ArrayList<String> mGoodList;
@@ -60,12 +61,21 @@ public class GoodDetailsActivity extends AppCompatActivity {
         bind = ButterKnife.bind(this);
         good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
         initData();
+        setListener();
+    }
+
+    private void setListener() {
+        //设置图片的触摸事件
+        aslv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 
 
-
     private void initData() {
-
         if(good_id==0){
             finish();
         }else{
@@ -73,7 +83,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
             model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
                 @Override
                 public void onSuccess(GoodsDetailsBean result) {
-                    setView(result);
+                    showView(result);
                     L.e("main","result"+result.toString());
                 }
                 @Override
@@ -87,27 +97,30 @@ public class GoodDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void setView(GoodsDetailsBean result) {
-        tvShopPrice.setText(result.getShopPrice());
+    private void showView(GoodsDetailsBean result) {
+        tvCurrencyPrice.setText(result.getCurrencyPrice());
         tvGoodsName.setText(result.getGoodsName());
         tvGoodsEnglishName.setText(result.getGoodsEnglishName());
-        goodsBrief.setText(result.getGoodsBrief());
+        goodsBrief.loadDataWithBaseURL(null,result.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
         PropertiesBean[] properties = result.getProperties();
+        aslv.startPlay(this,getGoodsList(properties),flowIndicator);
+
+    }
+    private ArrayList<String> getGoodsList(PropertiesBean[] properties) {
+
         mGoodList=new ArrayList<>();
         for (PropertiesBean property : properties) {
             for (AlbumsBean albumsBean : property.getAlbums()) {
-                mGoodList.add(  albumsBean.getImgUrl());
+                mGoodList.add(albumsBean.getImgUrl());
             }
         }
-        aslv.startPlay(this,mGoodList,flowIndicator);
-
+        return mGoodList;
     }
+
     @OnClick(R.id.backClickArea)
     public void back(View view){
         finish();
     }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

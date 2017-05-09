@@ -205,6 +205,11 @@ public class NewGoodsFragment extends Fragment {
         }
 
     }
+    public void sortBy(int sortBy){
+        if(adapter!=null){
+            adapter.sortBy(sortBy);
+        }
+    }
 
 
     @Override
@@ -212,4 +217,5 @@ public class NewGoodsFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }
