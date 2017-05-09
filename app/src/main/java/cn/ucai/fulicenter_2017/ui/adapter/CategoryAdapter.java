@@ -1,10 +1,12 @@
 package cn.ucai.fulicenter_2017.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -12,9 +14,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter_2017.R;
+import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.CategoryChildBean;
 import cn.ucai.fulicenter_2017.data.bean.CategoryGroupBean;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
+import cn.ucai.fulicenter_2017.ui.activity.CategoryChildActivity;
 
 /**
  */
@@ -22,14 +26,13 @@ import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
 public class CategoryAdapter extends BaseExpandableListAdapter {
     Context context;
     List<CategoryGroupBean> groupList;
+    List<List<CategoryChildBean>> childList;
 
     public CategoryAdapter(Context context, List<CategoryGroupBean> groupList, List<List<CategoryChildBean>> childList) {
         this.context = context;
         this.groupList = groupList;
         this.childList = childList;
     }
-
-    List<List<CategoryChildBean>> childList;
 
 
     @Override
@@ -86,14 +89,14 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder;
-        if(convertView==null){
-            convertView=View.inflate(context, R.layout.item_categorychild, null);
-            holder=new ChildViewHolder(convertView);
+        if (convertView == null) {
+            convertView = View.inflate(context, R.layout.item_categorychild, null);
+            holder = new ChildViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
-            holder= (ChildViewHolder) convertView.getTag();
+        } else {
+            holder = (ChildViewHolder) convertView.getTag();
         }
-        holder.bind(groupPosition,childPosition);
+        holder.bind(groupPosition, childPosition);
         return convertView;
     }
 
@@ -110,6 +113,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         @BindView(R.id.iv_expand)
         ImageView ivExpand;
 
+
         GroupViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
@@ -118,7 +122,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             CategoryGroupBean bean = groupList.get(groupPosition);
             tvCategoryGroupName.setText(bean.getName());
             ivExpand.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
-            ImageLoader.downloadImg(context,ivCategoryGroup,bean.getImageUrl());
+            ImageLoader.downloadImg(context, ivCategoryGroup, bean.getImageUrl());
         }
     }
 
@@ -127,16 +131,27 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         ImageView ivCategoryChild;
         @BindView(R.id.tv_categoryChildName)
         TextView tvCategoryChildName;
+        @BindView(R.id.layout_categoryChild)
+        RelativeLayout layoutCategoryChild;
 
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
 
         public void bind(int groupPosition, int childPosition) {
-            CategoryChildBean bean=getChild(groupPosition,childPosition);
-            if(bean!=null){
-                ImageLoader.downloadImg(context,ivCategoryChild,bean.getImageUrl());
+            final CategoryChildBean bean = getChild(groupPosition, childPosition);
+            if (bean != null) {
+                ImageLoader.downloadImg(context, ivCategoryChild, bean.getImageUrl());
                 tvCategoryChildName.setText(bean.getName());
+                layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       context.startActivity(new Intent(context, CategoryChildActivity.class)
+                               .putExtra(I.CategoryChild.CAT_ID,bean.getId()));
+                    }
+                });
+
+
             }
         }
     }
