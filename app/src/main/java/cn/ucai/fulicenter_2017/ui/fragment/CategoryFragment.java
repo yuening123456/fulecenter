@@ -54,6 +54,7 @@ public class CategoryFragment extends Fragment {
     List<List<CategoryChildBean>> childList=new ArrayList<>();
     int groupCount=0;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,13 +91,16 @@ public class CategoryFragment extends Fragment {
                 new OnCompleteListener<CategoryGroupBean[]>() {
                     @Override
                     public void onSuccess(CategoryGroupBean[] result) {
-                        L.e("main","Category_loadData"+result);
+
                         setListVisibility(true);
                         if (result != null) {
                             groupList = ResultUtils.array2List(result);
-                            for (CategoryGroupBean bean : groupList) {
-                                loadChildData(bean.getId());
+                            for (int i1 = 0; i1 < groupList.size(); i1++) {
+                                L.e("main","loadCategoryGroup.result,i1="+i1);
+                                childList.add(new ArrayList<CategoryChildBean>());
+                                loadChildData(groupList.get(i1).getId(),i1);
                             }
+
                         }
 
                     }
@@ -108,22 +112,23 @@ public class CategoryFragment extends Fragment {
                     }
                 });
     }
-    private void loadChildData(int parentId) {
-        L.e("main","loadChildData,parentId="+parentId);
+    private void loadChildData(int parentId,final int index) {
+
         model.loadCategoryChild(getContext(), parentId, new OnCompleteListener<CategoryChildBean[]>() {
             @Override
             public void onSuccess(CategoryChildBean[] result) {
                 groupCount++;
-                L.e("main","loadChildData"+result);
+
                 if(result!=null){
                     ArrayList<CategoryChildBean> list=ResultUtils.array2List(result);
-                    childList.add(list);
-                }else{
+                    childList.set(index,list);
+                    L.e("main","loadCategoryChild.result.index="+index);
                 }
+
                 if(groupCount==groupList.size()){
                     pd.dismiss();
                     setListVisibility(true);
-                    updateUI();
+                   updateUI();
                 }
             }
             @Override
