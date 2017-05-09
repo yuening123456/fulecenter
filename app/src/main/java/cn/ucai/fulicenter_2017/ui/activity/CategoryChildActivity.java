@@ -9,12 +9,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.I;
+import cn.ucai.fulicenter_2017.data.bean.CategoryChildBean;
+import cn.ucai.fulicenter_2017.ui.adapter.CatFiterAdapter;
 import cn.ucai.fulicenter_2017.ui.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter_2017.ui.view.CatFiterCategoryButton;
 
@@ -35,6 +40,7 @@ public class CategoryChildActivity extends AppCompatActivity {
     @BindView(R.id.CatFiter)
     CatFiterCategoryButton CatFiter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,9 @@ public class CategoryChildActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layoutFragment, fragment)
                 .commit();
+        String groupName=getIntent().getStringExtra(I.CategoryGroup.NAME);
+        ArrayList<CategoryChildBean> list = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
+        CatFiter.initView(groupName,list);
     }
 
     @OnClick(R.id.backClickArea)
@@ -57,6 +66,8 @@ public class CategoryChildActivity extends AppCompatActivity {
         super.onDestroy();
         if (bind != null) {
             bind.unbind();
+        }if(CatFiter!=null){
+            CatFiter.release();
         }
     }
 

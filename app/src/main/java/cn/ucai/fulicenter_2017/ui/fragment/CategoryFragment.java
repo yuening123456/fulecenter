@@ -51,7 +51,7 @@ public class CategoryFragment extends Fragment {
     @BindView(R.id.rvGoods)
     ExpandableListView rvGoods;
     List<CategoryGroupBean> groupList=new ArrayList<>();
-    List<List<CategoryChildBean>> childList=new ArrayList<>();
+    List<ArrayList<CategoryChildBean>> childList=new ArrayList<>();
     int groupCount=0;
 
 
