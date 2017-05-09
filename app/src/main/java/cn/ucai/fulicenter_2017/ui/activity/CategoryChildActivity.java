@@ -1,8 +1,10 @@
 package cn.ucai.fulicenter_2017.ui.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,9 +28,15 @@ public class CategoryChildActivity extends AppCompatActivity {
     @BindView(R.id.layoutFragment)
     FrameLayout layoutFragment;
     Unbinder bind;
-   boolean sortByPrice,sortByAddtime;
+    boolean sortByPrice, sortByAddtime;
     NewGoodsFragment fragment;
-    int sortBy=I.SORT_BY_ADDTIME_ASC;
+    int sortBy = I.SORT_BY_ADDTIME_ASC;
+    @BindView(R.id.btn_price)
+    Button btnPrice;
+    @BindView(R.id.addTime)
+    Button addTime;
+    @BindView(R.id.activity_boutique_child)
+    RelativeLayout activityBoutiqueChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,7 @@ public class CategoryChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_child);
         bind = ButterKnife.bind(this);
         int catId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, I.CAT_ID);
-        fragment=new NewGoodsFragment(catId);
+        fragment = new NewGoodsFragment(catId);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layoutFragment, fragment)
                 .commit();
@@ -57,15 +65,19 @@ public class CategoryChildActivity extends AppCompatActivity {
 
     @OnClick({R.id.btn_price, R.id.addTime})
     public void onViewClicked(View view) {
-        L.e("main","onViewClicked"+view.getId());
+        Drawable end;
         switch (view.getId()) {
             case R.id.btn_price:
-                sortByPrice=!sortByPrice;
-                sortBy=sortByPrice?I.SORT_BY_PRICE_ASC:I.SORT_BY_PRICE_DESC;
+                sortByPrice = !sortByPrice;
+                sortBy = sortByPrice ? I.SORT_BY_PRICE_ASC : I.SORT_BY_PRICE_DESC;
+                end=getDrawable(sortByPrice?R.drawable.arrow_order_up:R.drawable.arrow_order_down);
+                btnPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,end,null);
                 break;
             case R.id.addTime:
-                sortByAddtime=!sortByAddtime;
-                sortBy=sortByPrice?I.SORT_BY_ADDTIME_ASC:I.SORT_BY_ADDTIME_DESC;
+                sortByAddtime = !sortByAddtime;
+                sortBy = sortByPrice ? I.SORT_BY_ADDTIME_ASC : I.SORT_BY_ADDTIME_DESC;
+                end=getDrawable(sortByPrice?R.drawable.arrow_order_up:R.drawable.arrow_order_down);
+                addTime.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,end,null);
                 break;
         }
         fragment.sortBy(sortBy);
