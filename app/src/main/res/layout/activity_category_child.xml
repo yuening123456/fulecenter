@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    >
-   <LinearLayout
+   <RelativeLayout
        android:id="@+id/layout_back_ground"
        android:layout_width="match_parent"
        android:layout_height="40dp"
@@ -22,9 +22,10 @@
            android:text="大类"
            android:drawableRight="@drawable/arrow2_up"
            android:id="@+id/CatFiter"
+           android:layout_centerInParent="true"
         />
 
-   </LinearLayout>
+   </RelativeLayout>
     <LinearLayout
         android:id="@+id/layout_btn"
         android:layout_marginTop="5dp"

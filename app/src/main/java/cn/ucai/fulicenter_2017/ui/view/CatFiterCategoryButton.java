@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter_2017.R;
@@ -64,14 +64,13 @@ public class CatFiterCategoryButton extends android.support.v7.widget.AppCompatB
             mpopuWin=new PopupWindow(context);
             mpopuWin.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             mpopuWin.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-
             mpopuWin.setContentView(gv);
             gv.setNumColumns(2);
 
         }
         mpopuWin.showAsDropDown(this);
     }
-    public void initView(String groupName, List<CategoryChildBean> list){
+    public void initView(String groupName, ArrayList<CategoryChildBean> list){
         if(groupName==null||list==null||list.size()==0){
             CommonUtils.showLongToast("数据获取异常，请重试！");
             return;
@@ -84,6 +83,7 @@ public class CatFiterCategoryButton extends android.support.v7.widget.AppCompatB
         gv.setAdapter(adapter);
 
     }
+
 
     public void release() {
         if(mpopuWin!=null){

@@ -40,7 +40,6 @@ public class CategoryChildActivity extends AppCompatActivity {
     @BindView(R.id.CatFiter)
     CatFiterCategoryButton CatFiter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +68,9 @@ public class CategoryChildActivity extends AppCompatActivity {
         }if(CatFiter!=null){
             CatFiter.release();
         }
+
     }
+
 
     @OnClick({R.id.btn_price, R.id.addTime})
     public void onViewClicked(View view) {

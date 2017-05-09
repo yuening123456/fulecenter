@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter_2017.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,8 +17,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter_2017.R;
+import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.CategoryChildBean;
+import cn.ucai.fulicenter_2017.data.bean.CategoryGroupBean;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
+import cn.ucai.fulicenter_2017.data.utils.L;
+import cn.ucai.fulicenter_2017.ui.activity.CategoryChildActivity;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
@@ -23,11 +30,13 @@ import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
 
 public class CatFiterAdapter extends BaseAdapter {
     Context context;
-    List<CategoryChildBean> list;
+    ArrayList<CategoryChildBean> list;
 
-    public CatFiterAdapter(Context context, List<CategoryChildBean> list) {
+
+    public CatFiterAdapter(Context context, ArrayList<CategoryChildBean> list) {
         this.context = context;
         this.list = list;
+
     }
 
     @Override
@@ -71,13 +80,29 @@ public class CatFiterAdapter extends BaseAdapter {
             ButterKnife.bind(this, view);
         }
 
-        public void bind(int position) {
-            CategoryChildBean bean = list.get(position);
+        public void bind(final int position) {
+            final CategoryChildBean bean = list.get(position);
+
             if(bean!=null){
                 ImageLoader.downloadImg(context,ivCategoryChildThumb,bean.getImageUrl());
                 tvCategoryChildName.setText(bean.getName());
+                layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        L.e("main","setOnClickListener");
+                        context.startActivity(new Intent(context,CategoryChildActivity.class)
+                                .putExtra(I.CategoryGroup.NAME,bean.getName())
+                                .putExtra(I.CategoryChild.ID,list)
+                                .putExtra(I.CategoryChild.CAT_ID,bean.getId()));
+                    }
+
+
+                });
+
             }
 
         }
-    }
+
+         }
 }
