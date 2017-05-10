@@ -21,6 +21,7 @@ import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.net.IUserModel;
 import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.net.UserModel;
+import cn.ucai.fulicenter_2017.data.utils.MD5;
 import cn.ucai.fulicenter_2017.data.utils.ResultUtils;
 
 
@@ -64,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         initDialog();
         if (checkInput()) {
             model = new UserModel();
-            model.register(RegisterActivity.this, userName, userNick, password, new OnCompleteListener<String>() {
+            model.register(RegisterActivity.this, userName, userNick, MD5.getMessageDigest(password), new OnCompleteListener<String>() {
                 @Override
                 public void onSuccess(String s) {
                     if (s != null) {
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         pd.setMessage(getString(R.string.registering));
         pd.show();
     }
+
 
     private void disMissDialog() {
         if (pd != null && pd.isShowing()) {
