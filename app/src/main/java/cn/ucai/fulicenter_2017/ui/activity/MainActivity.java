@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter_2017.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import cn.ucai.fulicenter_2017.R;
 
+import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
 import cn.ucai.fulicenter_2017.ui.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.CategoryFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.NewGoodsFragment;
@@ -61,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.tvCategory:
                     index=2;
+                    break;
+                case R.id.tvCenter:
+                    index=4;
+                    if(FuLiCenterApplication.getInstance().getCurrentUser()==null){
+                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+
+                    }
                     break;
             }
             setFragment();
