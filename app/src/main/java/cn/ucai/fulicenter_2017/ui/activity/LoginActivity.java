@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter_2017.R;
+import cn.ucai.fulicenter_2017.application.I;
 
 /**
  * Created by Administrator on 2017/5/10 0010.
@@ -45,8 +47,19 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.Login:
                 break;
             case R.id.Register:
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class),0);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            String username = data.getStringExtra(I.User.USER_NAME);
+            Log.i("main", "username:" + username);
+            edUserName.setText(username);
+
         }
     }
 }

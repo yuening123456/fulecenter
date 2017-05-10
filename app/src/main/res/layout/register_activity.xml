@@ -36,7 +36,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edUserName"/>
+            android:id="@+id/edUserName"
+            android:drawableRight="@drawable/icon_account"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edNick"
+            android:drawableRight="@drawable/icon_account"
             />
     </LinearLayout>
     <LinearLayout
@@ -66,12 +68,33 @@
             android:text="密码"
             android:textSize="19sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+           />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edPassword"
+            android:inputType="textPassword"
+            android:drawableRight="@drawable/icon_pwd"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确认密码"
+            android:textSize="19sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cyPassword"
+            android:inputType="textPassword"
+            android:drawableRight="@drawable/icon_pwd"/>
     </LinearLayout>
 
     <Button

@@ -9,6 +9,6 @@ import cn.ucai.fulicenter_2017.data.bean.User;
  */
 
 public interface IUserModel {
-    void login(Context context,String username,String password ,OnCompleteListener<User>listener );
-    void register(Context context,String username,String nick,String password ,OnCompleteListener<User>listener );
+    void login(Context context,String username,String password ,OnCompleteListener<String>listener );
+    void register(Context context,String username,String nick,String password ,OnCompleteListener<String>listener );
 }

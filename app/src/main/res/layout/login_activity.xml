@@ -32,11 +32,13 @@
             android:text="账号"
             android:textSize="19sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edUserName"/>
+            android:id="@+id/edUserName"
+            android:drawableRight="@drawable/icon_account"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,26 +55,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edPassword"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_account"
-            />
+            android:inputType="textPassword"
+            android:drawableRight="@drawable/icon_pwd"
+            android:hint="请输入6——12个字符"/>
+
     </LinearLayout>
-
-
        <Button
+           android:layout_marginTop="20sp"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/Login"
            android:text="登录"
            android:background="@color/orange"/>
        <Button
-           android:layout_width="match_parent"
+           android:layout_marginTop="10sp"
+           android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:id="@+id/Register"
-           android:text="免费注册"/>
+           android:text="免费注册"
+           android:layout_gravity="center"
+           android:background="#f60"/>
 
 
 </LinearLayout>

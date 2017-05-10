@@ -9,6 +9,7 @@ import android.app.Application;
 
 public class FuLiCenterApplication extends Application{
     private static FuLiCenterApplication instace;
+    String CurrentUser;
 
     @Override
     public void onCreate() {
@@ -18,5 +19,13 @@ public class FuLiCenterApplication extends Application{
 
     public static FuLiCenterApplication getInstance(){
         return  instace;
+    }
+
+    public String getCurrentUser() {
+        return CurrentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        CurrentUser = currentUser;
     }
 }

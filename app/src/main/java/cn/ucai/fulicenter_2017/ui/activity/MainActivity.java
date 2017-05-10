@@ -65,10 +65,9 @@ public class MainActivity extends AppCompatActivity {
                     index=2;
                     break;
                 case R.id.tvCenter:
-                    index=4;
+                   // index=4;
                     if(FuLiCenterApplication.getInstance().getCurrentUser()==null){
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
-
                     }
                     break;
             }

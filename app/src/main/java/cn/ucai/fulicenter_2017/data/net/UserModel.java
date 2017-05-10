@@ -12,23 +12,24 @@ import cn.ucai.fulicenter_2017.data.utils.OkHttpUtils;
 
 public class UserModel implements IUserModel{
     @Override
-    public void login(Context context, String username, String password, OnCompleteListener<User> listener) {
-        OkHttpUtils<User> utils=new OkHttpUtils<>(context);
+    public void login(Context context, String username, String password, OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils=new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_LOGIN)
                 .addParam(I.User.USER_NAME,username)
                 .addParam(I.User.PASSWORD,password)
-                .targetClass(User.class)
+                .targetClass(String.class)
                 .execute(listener);
     }
 
     @Override
-    public void register(Context context, String username, String nick, String password, OnCompleteListener<User> listener) {
-        OkHttpUtils<User> utils=new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.REQUEST_LOGIN)
+    public void register(Context context, String username, String nick, String password, OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils=new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_REGISTER)
                 .addParam(I.User.USER_NAME,username)
                 .addParam(I.User.NICK,nick)
                 .addParam(I.User.PASSWORD,password)
-                .targetClass(User.class)
+                .post()
+                .targetClass(String.class)
                 .execute(listener);
 
     }
