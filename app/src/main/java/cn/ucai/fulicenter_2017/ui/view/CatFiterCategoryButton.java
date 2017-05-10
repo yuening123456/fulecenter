@@ -76,7 +76,7 @@ public class CatFiterCategoryButton extends android.support.v7.widget.AppCompatB
             return;
         }
         this.setText(groupName);
-        adapter=new CatFiterAdapter(context,list);
+        adapter=new CatFiterAdapter(context,list,groupName);
         gv=new GridView(context);
         gv.setHorizontalSpacing(10);
         gv.setVerticalSpacing(10);

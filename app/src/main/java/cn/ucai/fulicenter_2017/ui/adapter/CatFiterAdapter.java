@@ -31,11 +31,13 @@ import cn.ucai.fulicenter_2017.ui.activity.CategoryChildActivity;
 public class CatFiterAdapter extends BaseAdapter {
     Context context;
     ArrayList<CategoryChildBean> list;
+    String groupName;
 
 
-    public CatFiterAdapter(Context context, ArrayList<CategoryChildBean> list) {
+    public CatFiterAdapter(Context context, ArrayList<CategoryChildBean> list,String groupName) {
         this.context = context;
         this.list = list;
+        this.groupName=groupName;
 
     }
 
@@ -92,9 +94,10 @@ public class CatFiterAdapter extends BaseAdapter {
 
                         L.e("main","setOnClickListener");
                         context.startActivity(new Intent(context,CategoryChildActivity.class)
-                                .putExtra(I.CategoryGroup.NAME,bean.getName())
+                                .putExtra(I.CategoryGroup.NAME,groupName)
                                 .putExtra(I.CategoryChild.ID,list)
                                 .putExtra(I.CategoryChild.CAT_ID,bean.getId()));
+                        ((CategoryChildActivity)context).finish();
                     }
 
 
