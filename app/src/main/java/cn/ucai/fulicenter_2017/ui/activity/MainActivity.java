@@ -13,6 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
+import cn.ucai.fulicenter_2017.application.I;
+import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.ui.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.CategoryFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.NewGoodsFragment;
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tvCenter:
                 if (FuLiCenterApplication.getInstance().getCurrentUser() == null) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), I.REQUEST_CODE_LOGIN);
                 } else {
                     index = 4;
                 }
@@ -127,4 +129,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        L.e("main","MainActivity.onActivityResult requsetCode="+requestCode+"resultCode="+resultCode);
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==I.REQUEST_CODE_LOGIN){
+            index=4;
+            setFragment();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(index==4&&FuLiCenterApplication.getInstance().getCurrentUser()==null){
+            index=0;
+            setFragment();
+
+        }
+    }
 }

@@ -120,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         SharePrefrenceUtils.getInstance().setUserName(user.getMuserName());
         UserDao dao=new UserDao(LoginActivity.this);
         dao.saveUser(user);
+        setResult(RESULT_OK);
         finish();
     }
     private boolean checkInput() {
