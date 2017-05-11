@@ -157,4 +157,5 @@ public class LoginActivity extends AppCompatActivity {
             edUserName.setText(username);
         }
     }
+
 }
