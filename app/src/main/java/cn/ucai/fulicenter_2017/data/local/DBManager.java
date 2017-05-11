@@ -31,7 +31,7 @@ public class DBManager {
             values.put(DBOpenHelper.USER_COLUMN_AVATAR_TYPE,user.getMavatarType());
             values.put(DBOpenHelper.USER_COLUMN_AVATAR_SUFFIX,user.getMavatarSuffix());
             values.put(DBOpenHelper.USER_COLUMN_AVATAR_UPDATE_TIME,user.getMavatarLastUpdateTime());
-            long insert=database.insert(DBOpenHelper.USER_TABLE_NAME,null,values);
+            long insert=database.replace(DBOpenHelper.USER_TABLE_NAME,null,values);
             return insert>0?true:false;
         }
         return false;

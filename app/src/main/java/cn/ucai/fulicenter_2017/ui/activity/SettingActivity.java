@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -14,9 +15,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter_2017.R;
 import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
+import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
-import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.data.utils.SharePrefrenceUtils;
 
 /**
@@ -32,6 +33,10 @@ public class SettingActivity extends AppCompatActivity {
     TextView tvUserName;
     @BindView(R.id.out)
     Button out;
+    @BindView(R.id.layout_tvNick)
+    LinearLayout layoutTvNick;
+    @BindView(R.id.layout_back_ground)
+    ImageView layoutBackGround;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,11 +47,11 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        User user= FuLiCenterApplication.getInstance().getCurrentUser();
-        if(user!=null){
+        User user = FuLiCenterApplication.getInstance().getCurrentUser();
+        if (user != null) {
             tvNick.setText(user.getMuserNick());
             tvUserName.setText(user.getMuserName());
-            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),SettingActivity.this,imUserAvatar);
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), SettingActivity.this, imUserAvatar);
         }
     }
 
@@ -61,10 +66,32 @@ public class SettingActivity extends AppCompatActivity {
                 break;
         }
     }
+
     private void logout() {
         FuLiCenterApplication.getInstance().setCurrentUser(null);
         SharePrefrenceUtils.getInstance().removeUser();
         finish();
-        startActivity(new Intent(SettingActivity.this,LoginActivity.class));
+        startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+    }
+
+
+    @OnClick({R.id.layout_back_ground, R.id.layout_tvNick})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layout_back_ground:
+                finish();
+                break;
+            case R.id.layout_tvNick:
+                startActivityForResult(new Intent(SettingActivity.this,UpdataNickActivity.class),I.REQUEST_CODE_NICK);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==I.REQUEST_CODE_NICK&&resultCode==RESULT_OK){
+            initData();
+        }
     }
 }
