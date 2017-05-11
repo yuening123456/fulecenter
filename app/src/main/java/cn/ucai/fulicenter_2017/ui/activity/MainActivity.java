@@ -14,11 +14,13 @@ import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
 import cn.ucai.fulicenter_2017.ui.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.CategoryFragment;
 import cn.ucai.fulicenter_2017.ui.fragment.NewGoodsFragment;
+import cn.ucai.fulicenter_2017.ui.fragment.PersonalFragment;
 
 public class MainActivity extends AppCompatActivity {
     NewGoodsFragment goodsFragment;
     BoutiqueFragment boutiqueFragment;
     CategoryFragment categoryFragment;
+    PersonalFragment personalFragment;
     Fragment[] mFragment;
     int currentIndex, index;
 
@@ -36,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
         goodsFragment=new NewGoodsFragment();
         boutiqueFragment=new BoutiqueFragment();
         categoryFragment=new CategoryFragment();
+        personalFragment=new PersonalFragment();
         mFragment=new Fragment[5];
         mFragment[0]=goodsFragment;
         mFragment[1]=boutiqueFragment;
         mFragment[2]=categoryFragment;
+        mFragment[4]=personalFragment;
     }
     private void showFragment() {
         FragmentManager manager = getSupportFragmentManager();
@@ -65,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
                     index=2;
                     break;
                 case R.id.tvCenter:
-                   // index=4;
+
                     if(FuLiCenterApplication.getInstance().getCurrentUser()==null){
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    }else{
+                        index=4;
                     }
                     break;
             }

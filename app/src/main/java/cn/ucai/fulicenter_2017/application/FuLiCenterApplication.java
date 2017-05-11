@@ -2,6 +2,8 @@ package cn.ucai.fulicenter_2017.application;
 
 import android.app.Application;
 
+import cn.ucai.fulicenter_2017.data.bean.User;
+
 
 /**
  * Created by Administrator on 2017/5/3 0003.
@@ -9,7 +11,7 @@ import android.app.Application;
 
 public class FuLiCenterApplication extends Application{
     private static FuLiCenterApplication instace;
-    String CurrentUser;
+    User CurrentUser;
 
     @Override
     public void onCreate() {
@@ -21,11 +23,11 @@ public class FuLiCenterApplication extends Application{
         return  instace;
     }
 
-    public String getCurrentUser() {
+    public User getCurrentUser() {
         return CurrentUser;
     }
 
-    public void setCurrentUser(String currentUser) {
+    public void setCurrentUser(User currentUser) {
         CurrentUser = currentUser;
     }
 }

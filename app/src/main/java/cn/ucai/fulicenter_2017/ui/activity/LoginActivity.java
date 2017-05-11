@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void loginSuccess(User user) {
         L.i("main","loginSuccess"+user.toString());
-        FuLiCenterApplication.getInstance().setCurrentUser(user.toString());
+        FuLiCenterApplication.getInstance().setCurrentUser(user);
         SharePrefrenceUtils.getInstance().setUserName(user.getMuserName());
         UserDao dao=new UserDao(LoginActivity.this);
         dao.saveUser(user);

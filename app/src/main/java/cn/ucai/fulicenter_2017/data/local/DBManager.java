@@ -44,6 +44,7 @@ public class DBManager {
             Cursor cursor = database.rawQuery("select * from " + DBOpenHelper.USER_TABLE_NAME + " where " +
                     DBOpenHelper.USER_COLUMN_NAME + "=?", new String[]{userName});
             if(cursor.moveToNext()){
+                user=new User();
                 String usernick=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_NICK));
                 user.setMuserNick(usernick);
                 String username=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_NAME));

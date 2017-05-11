@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:id="@+id/layout_back_ground"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人资料"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户头像"
+            android:textSize="19sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+           />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imUserAvatar"
+            android:src="@drawable/selector_menu_item_new_good"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20sp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="3dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="昵称"
+            android:textSize="19sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvNick"
+            android:text="aaaaa"
+            android:gravity="right|center_vertical"
+            android:layout_marginRight="20sp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="3dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            android:textSize="19sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvUserName"
+            android:text="aaaaa"
+            android:gravity="right|center_vertical"
+            android:layout_marginRight="20sp"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/out"
+            android:text="退出登录"
+            android:background="#f90"
+            android:textSize="20sp"
+           android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"/>
+    </RelativeLayout>
+
+
+
+
+
+
+</LinearLayout>
