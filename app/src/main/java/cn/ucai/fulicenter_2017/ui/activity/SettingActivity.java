@@ -44,11 +44,9 @@ public class SettingActivity extends AppCompatActivity {
     private void initData() {
         User user= FuLiCenterApplication.getInstance().getCurrentUser();
         if(user!=null){
-            L.e("main","user="+user.toString());
             tvNick.setText(user.getMuserNick());
             tvUserName.setText(user.getMuserName());
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),SettingActivity.this,imUserAvatar);
-
         }
     }
 
