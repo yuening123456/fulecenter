@@ -232,7 +232,7 @@ public class SettingActivity extends AppCompatActivity {
         popupWindow.setOutsideTouchable(true);
         View parent = LayoutInflater.from(this).inflate(R.layout.activity_setting, null);
         popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        //popupWindow在弹窗的时候背景半透明
+      /*  //popupWindow在弹窗的时候背景半透明
         final WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1f;
         getWindow().setAttributes(params);
@@ -242,7 +242,7 @@ public class SettingActivity extends AppCompatActivity {
                 params.alpha = 1.0f;
                 getWindow().setAttributes(params);
             }
-        });
+        });*/
 
         btnCarema.setOnClickListener(new View.OnClickListener() {
             @Override
