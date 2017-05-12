@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
-
 import cn.ucai.fulicenter_2017.R;
 
 

@@ -28,7 +28,7 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
     private ImageView back;
     private TextView btnCancel;
     private TextView btnOk;
-    //类别 1: qq, 2: weixin
+
     private int type;
 
     @Override
@@ -36,6 +36,7 @@ public class ClipImageActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clip_image);
         type = getIntent().getIntExtra("type", 1);
+        Log.i("main", "ClipImageActivity.onCreate");
         initView();
     }
 

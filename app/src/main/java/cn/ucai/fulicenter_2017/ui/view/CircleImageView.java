@@ -39,7 +39,6 @@ import android.widget.ImageView;
 
 import cn.ucai.fulicenter_2017.R;
 
-
 /**
  * https://github.com/hdodenhof/CircleImageView
  */
