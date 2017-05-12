@@ -110,6 +110,11 @@ public class GoodDetailsActivity extends AppCompatActivity {
                 L.e("main", "error" + error);
             }
         });
+        loadCollectStatus();
+    }
+
+    private void loadCollectStatus() {
+        user=FuLiCenterApplication.getInstance().getCurrentUser();
         if(user!=null){
             userModel.isCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
                 @Override
@@ -125,6 +130,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
             });
         }
     }
+
     private void updateUI(){
         ivCollect.setImageResource(isCollect?R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
     }
@@ -167,13 +173,51 @@ public class GoodDetailsActivity extends AppCompatActivity {
         user= FuLiCenterApplication.getInstance().getCurrentUser();
         if(user==null){
             startActivityForResult(new Intent(GoodDetailsActivity.this,LoginActivity.class),0);
+        }else{
+            if(isCollect){
+                removeCollect();
+            }else{
+                addCollect();
+            }
         }
+    }
+
+    private void addCollect() {
+        userModel.addCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                isCollect=result!=null&&result.isSuccess()?true:false;
+                updateUI();
+            }
+            @Override
+            public void onError(String error) {
+                isCollect=false;
+                updateUI();
+            }
+        });
+    }
+
+    private void removeCollect() {
+        userModel.removeCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                isCollect=result!=null&&result.isSuccess()?false:true;
+                updateUI();
+            }
+
+            @Override
+            public void onError(String error) {
+                isCollect=true;
+                updateUI();
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
+            loadCollectStatus();
 
         }
     }
