@@ -1,11 +1,13 @@
 package cn.ucai.fulicenter_2017.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,13 +17,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulicenter_2017.R;
+import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
 import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.AlbumsBean;
 import cn.ucai.fulicenter_2017.data.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter_2017.data.bean.MessageBean;
 import cn.ucai.fulicenter_2017.data.bean.PropertiesBean;
+import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.net.GoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
+import cn.ucai.fulicenter_2017.data.net.IUserModel;
 import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
+import cn.ucai.fulicenter_2017.data.net.UserModel;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.ui.view.AutoSlideLoopView;
 import cn.ucai.fulicenter_2017.ui.view.FlowIndicator;
@@ -52,14 +59,19 @@ public class GoodDetailsActivity extends AppCompatActivity {
     WebView goodsBrief;
     Unbinder bind;
     IGoodsModel model;
+    IUserModel userModel;
     ArrayList<String> mGoodList;
     int good_id;
+    @BindView(R.id.layout_back_ground)
+    RelativeLayout layoutBackGround;
+    User user;
+    boolean isCollect=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_details);
         bind = ButterKnife.bind(this);
-        good_id=getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID,I.CAT_ID);
+        good_id = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, I.CAT_ID);
         initData();
         setListener();
     }
@@ -76,39 +88,59 @@ public class GoodDetailsActivity extends AppCompatActivity {
 
 
     private void initData() {
-        if(good_id==0){
+        if (good_id == 0) {
             finish();
-        }else{
-            model=new GoodsModel();
-            model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
+        } else {
+            model = new GoodsModel();
+            userModel=new UserModel();
+            loadData();
+        }
+    }
+
+    private void loadData() {
+        user= FuLiCenterApplication.getInstance().getCurrentUser();
+        model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
+            @Override
+            public void onSuccess(GoodsDetailsBean result) {
+                showView(result);
+                L.e("main", "result" + result.toString());
+            }
+            @Override
+            public void onError(String error) {
+                L.e("main", "error" + error);
+            }
+        });
+        if(user!=null){
+            userModel.isCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
                 @Override
-                public void onSuccess(GoodsDetailsBean result) {
-                    showView(result);
-                    L.e("main","result"+result.toString());
+                public void onSuccess(MessageBean result) {
+                  isCollect=result!=null&&result.isSuccess()?true:false;
+                    updateUI();
                 }
                 @Override
                 public void onError(String error) {
-                    L.e("main","error"+error);
-
+                    isCollect=false;
+                    updateUI();
                 }
             });
         }
-
     }
-
+    private void updateUI(){
+        ivCollect.setImageResource(isCollect?R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
+    }
 
     private void showView(GoodsDetailsBean result) {
         tvCurrencyPrice.setText(result.getCurrencyPrice());
         tvGoodsName.setText(result.getGoodsName());
         tvGoodsEnglishName.setText(result.getGoodsEnglishName());
-        goodsBrief.loadDataWithBaseURL(null,result.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
+        goodsBrief.loadDataWithBaseURL(null, result.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
         PropertiesBean[] properties = result.getProperties();
-        aslv.startPlay(this,getGoodsList(properties),flowIndicator);
+        aslv.startPlay(this, getGoodsList(properties), flowIndicator);
 
     }
     private ArrayList<String> getGoodsList(PropertiesBean[] properties) {
 
-        mGoodList=new ArrayList<>();
+        mGoodList = new ArrayList<>();
         for (PropertiesBean property : properties) {
             for (AlbumsBean albumsBean : property.getAlbums()) {
                 mGoodList.add(albumsBean.getImgUrl());
@@ -118,14 +150,31 @@ public class GoodDetailsActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.backClickArea)
-    public void back(View view){
+    public void back(View view) {
         finish();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(bind!=null){
+        if (bind != null) {
             bind.unbind();
+        }
+    }
+
+    @OnClick(R.id.iv_collect)
+    public void onViewClicked() {
+        user= FuLiCenterApplication.getInstance().getCurrentUser();
+        if(user==null){
+            startActivityForResult(new Intent(GoodDetailsActivity.this,LoginActivity.class),0);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+
         }
     }
 }

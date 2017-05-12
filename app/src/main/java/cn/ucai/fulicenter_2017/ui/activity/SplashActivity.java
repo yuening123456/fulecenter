@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -42,10 +43,11 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if(FuLiCenterApplication.getInstance().getCurrentUser()==null){
                     String userName= SharePrefrenceUtils.getInstance().getUserName();
-                    L.e("main","userName="+userName);
+                    Log.i("main","SplashActivity.userName="+userName);
                     if(userName!=null){
                         UserDao dao=new UserDao(SplashActivity.this);
                         User user=dao.getUser(userName);
+                        Log.i("main", "SplashActivity.user:" + user);
                         if(user!=null){
                             FuLiCenterApplication.getInstance().setCurrentUser(user);
                         }

@@ -51,6 +51,8 @@ public interface I {
     int ACTION_ADD_COLLECT=1;
     /** 取消收藏*/
     int ACTION_DELETE_COLLECT=2;
+    /** 是否收藏*/
+    int ACTION_IS_COLLECT=0;
     
     int NEW_GOOD=0;
     int CATEGORY_GOOD=1;
