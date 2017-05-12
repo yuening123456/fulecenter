@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import cn.ucai.fulicenter_2017.data.bean.User;
 
@@ -21,6 +22,7 @@ public class DBManager {
         sHelper=DBOpenHelper.getInstance(context);
     }
     public synchronized boolean saveUser(User user){
+        Log.i("main", "DBManager.user:" + user);
         SQLiteDatabase database=sHelper.getWritableDatabase();
         if(database.isOpen()){
             ContentValues values=new ContentValues();
@@ -37,6 +39,15 @@ public class DBManager {
         return false;
 
     }
+    /**
+     * muserName : a952700
+     * muserNick : 士大夫
+     * mavatarId : 72
+     * mavatarPath : user_avatar
+     * mavatarSuffix : .jpg
+     * mavatarType : 0
+     * mavatarLastUpdateTime : 1476262984280
+     */
     public synchronized User getUser(String userName){
         User user=null;
         SQLiteDatabase database=sHelper.getReadableDatabase();
@@ -47,18 +58,16 @@ public class DBManager {
                 user=new User();
                 String usernick=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_NICK));
                 user.setMuserNick(usernick);
-                String username=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_NAME));
-                user.setMuserNick(username);
-                String useravatar=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR));
-                user.setMuserNick(useravatar);
+                user.setMuserName(userName);
                 String avatarpath=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR_PATH));
-                user.setMuserNick(avatarpath);
-                String avatartype=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR_TYPE));
-                user.setMuserNick(avatartype);
+                user.setMavatarPath(avatarpath);
+                int avatartype=cursor.getInt(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR_TYPE));
+                user.setMavatarType(avatartype);
                 String suffix=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR_SUFFIX));
-                user.setMuserNick(suffix);
+                user.setMavatarSuffix(suffix);
                 String update_time=cursor.getString(cursor.getColumnIndex(DBOpenHelper.USER_COLUMN_AVATAR_UPDATE_TIME));
-                user.setMuserNick(update_time);
+                user.setMavatarLastUpdateTime(update_time);
+                Log.i("main", "DBManager.getUser().user:" + user);
             }
 
         }
