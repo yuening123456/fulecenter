@@ -31,6 +31,7 @@
         <activity android:name=".ui.activity.SettingActivity" />
         <activity android:name=".ui.activity.UpdataNickActivity" />
         <activity android:name=".ui.activity.ClipImageActivity"/>
+        <activity android:name=".ui.activity.CollectsActivity" />
     </application>
 
 </manifest>

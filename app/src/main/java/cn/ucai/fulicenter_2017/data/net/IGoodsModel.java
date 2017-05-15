@@ -24,5 +24,4 @@ public interface IGoodsModel {
     void loadCategoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]>listener);
     void loadCategoryChild(Context context, int parentId, OkHttpUtils.OnCompleteListener<CategoryChildBean[]>listener);
 
-
 }

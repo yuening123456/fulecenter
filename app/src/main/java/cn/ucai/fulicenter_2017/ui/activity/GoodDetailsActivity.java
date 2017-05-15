@@ -175,50 +175,29 @@ public class GoodDetailsActivity extends AppCompatActivity {
             startActivityForResult(new Intent(GoodDetailsActivity.this,LoginActivity.class),0);
         }else{
             if(isCollect){
-                removeCollect();
+                userModel.removeCollect(GoodDetailsActivity.this,String.valueOf(good_id),user.getMuserName(),mListener);
             }else{
-                addCollect();
+                userModel.addCollect(GoodDetailsActivity.this,String.valueOf(good_id),user.getMuserName(),mListener);
             }
         }
     }
+    OnCompleteListener<MessageBean> mListener=new OnCompleteListener<MessageBean>() {
+        @Override
+        public void onSuccess(MessageBean result) {
+            isCollect=!isCollect;
+        }
 
-    private void addCollect() {
-        userModel.addCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
-            @Override
-            public void onSuccess(MessageBean result) {
-                isCollect=result!=null&&result.isSuccess()?true:false;
-                updateUI();
-            }
-            @Override
-            public void onError(String error) {
-                isCollect=false;
-                updateUI();
-            }
-        });
-    }
+        @Override
+        public void onError(String error) {
 
-    private void removeCollect() {
-        userModel.removeCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
-            @Override
-            public void onSuccess(MessageBean result) {
-                isCollect=result!=null&&result.isSuccess()?false:true;
-                updateUI();
-            }
-
-            @Override
-            public void onError(String error) {
-                isCollect=true;
-                updateUI();
-            }
-        });
-    }
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
             loadCollectStatus();
-
         }
     }
 }
