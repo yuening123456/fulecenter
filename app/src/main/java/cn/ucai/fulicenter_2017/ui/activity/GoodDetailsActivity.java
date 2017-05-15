@@ -3,7 +3,6 @@ package cn.ucai.fulicenter_2017.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -30,6 +29,7 @@ import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IUserModel;
 import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.net.UserModel;
+import cn.ucai.fulicenter_2017.data.utils.CommonUtils;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.ui.view.AutoSlideLoopView;
 import cn.ucai.fulicenter_2017.ui.view.FlowIndicator;
@@ -66,7 +66,8 @@ public class GoodDetailsActivity extends AppCompatActivity {
     @BindView(R.id.layout_back_ground)
     RelativeLayout layoutBackGround;
     User user;
-    boolean isCollect=false;
+    boolean isCollect = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,18 +94,19 @@ public class GoodDetailsActivity extends AppCompatActivity {
             finish();
         } else {
             model = new GoodsModel();
-            userModel=new UserModel();
+            userModel = new UserModel();
             loadData();
         }
     }
 
     private void loadData() {
-        user= FuLiCenterApplication.getInstance().getCurrentUser();
+        user = FuLiCenterApplication.getInstance().getCurrentUser();
         model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
                 showView(result);
             }
+
             @Override
             public void onError(String error) {
                 L.e("main", "error" + error);
@@ -114,25 +116,26 @@ public class GoodDetailsActivity extends AppCompatActivity {
     }
 
     private void loadCollectStatus() {
-        user=FuLiCenterApplication.getInstance().getCurrentUser();
-        if(user!=null){
+        user = FuLiCenterApplication.getInstance().getCurrentUser();
+        if (user != null) {
             userModel.isCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), new OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                  isCollect=result!=null&&result.isSuccess()?true:false;
+                    isCollect = result != null && result.isSuccess() ? true : false;
                     updateUI();
                 }
+
                 @Override
                 public void onError(String error) {
-                    isCollect=false;
+                    isCollect = false;
                     updateUI();
                 }
             });
         }
     }
 
-    private void updateUI(){
-        ivCollect.setImageResource(isCollect?R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
+    private void updateUI() {
+        ivCollect.setImageResource(isCollect ? R.mipmap.bg_collect_out : R.mipmap.bg_collect_in);
     }
 
     private void showView(GoodsDetailsBean result) {
@@ -144,6 +147,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
         aslv.startPlay(this, getGoodsList(properties), flowIndicator);
 
     }
+
     private ArrayList<String> getGoodsList(PropertiesBean[] properties) {
 
         mGoodList = new ArrayList<>();
@@ -158,15 +162,15 @@ public class GoodDetailsActivity extends AppCompatActivity {
     @OnClick(R.id.backClickArea)
     public void back(View view) {
         setResult(RESULT_OK,
-                new Intent().putExtra(I.Goods.KEY_GOODS_ID,good_id).putExtra(I.Goods.KEY_IS_COLLECT,isCollect));
+                new Intent().putExtra(I.Goods.KEY_GOODS_ID, good_id).putExtra(I.Goods.KEY_IS_COLLECT, isCollect));
         finish();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,good_id)
-                .putExtra(I.Goods.KEY_IS_COLLECT,true));
+        setResult(RESULT_OK, new Intent().putExtra(I.Goods.KEY_GOODS_ID, good_id)
+                .putExtra(I.Goods.KEY_IS_COLLECT, true));
         finish();
     }
 
@@ -180,21 +184,24 @@ public class GoodDetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.iv_collect)
     public void onViewClicked() {
-        user= FuLiCenterApplication.getInstance().getCurrentUser();
-        if(user==null){
-            startActivityForResult(new Intent(GoodDetailsActivity.this,LoginActivity.class),0);
-        }else{
-            if(isCollect){
-                userModel.removeCollect(GoodDetailsActivity.this,String.valueOf(good_id),user.getMuserName(),mListener);
-            }else{
-                userModel.addCollect(GoodDetailsActivity.this,String.valueOf(good_id),user.getMuserName(),mListener);
+        user = FuLiCenterApplication.getInstance().getCurrentUser();
+        if (user == null) {
+            startActivityForResult(new Intent(GoodDetailsActivity.this, LoginActivity.class), 0);
+        } else {
+            if (isCollect) {
+                userModel.removeCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), mListener);
+                CommonUtils.showLongToast("取消收藏成功");
+            } else {
+                userModel.addCollect(GoodDetailsActivity.this, String.valueOf(good_id), user.getMuserName(), mListener);
+                CommonUtils.showLongToast("添加收藏成功");
             }
         }
     }
-    OnCompleteListener<MessageBean> mListener=new OnCompleteListener<MessageBean>() {
+
+    OnCompleteListener<MessageBean> mListener = new OnCompleteListener<MessageBean>() {
         @Override
         public void onSuccess(MessageBean result) {
-            isCollect=!isCollect;
+            isCollect = !isCollect;
             updateUI();
         }
 
@@ -207,8 +214,29 @@ public class GoodDetailsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
+        if (resultCode == RESULT_OK) {
             loadCollectStatus();
         }
     }
+
+    @OnClick(R.id.iv_cart)
+    public void onCart() {
+        if(user!=null){
+          userModel.addCart(this, good_id, user.getMuserName(),1, true, new OnCompleteListener<MessageBean>() {
+              @Override
+              public void onSuccess(MessageBean result) {
+                  if(result!=null&&result.isSuccess()){
+                  CommonUtils.showLongToast("添加购物车成功");
+                  }
+              }
+              @Override
+              public void onError(String error) {
+
+              }
+          });
+        }else{
+            startActivityForResult(new Intent(this,LoginActivity.class),I.ACTION_CART_ADD);
+        }
+    }
+
 }
