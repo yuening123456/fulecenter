@@ -5,8 +5,8 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulicenter_2017.application.I;
+import cn.ucai.fulicenter_2017.data.bean.CollectBean;
 import cn.ucai.fulicenter_2017.data.bean.MessageBean;
-import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.utils.OkHttpUtils;
 
 /**
@@ -99,5 +99,17 @@ public class UserModel implements IUserModel{
     @Override
     public void isCollect(Context context, String goodsId, String username, OnCompleteListener<MessageBean> listener) {
         collectAction(I.ACTION_IS_COLLECT,context,goodsId,username,listener);
+    }
+
+    @Override
+    public void loadCollects(Context context, String username, int pageId, int pageSize, OnCompleteListener<CollectBean[]> listener) {
+        OkHttpUtils<CollectBean[]> utils =new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.PAGE_ID,String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE,String.valueOf(pageSize))
+                .targetClass(CollectBean[].class)
+                .execute(listener);
+
     }
 }
