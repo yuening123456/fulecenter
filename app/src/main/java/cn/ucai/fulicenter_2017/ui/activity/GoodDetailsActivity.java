@@ -185,6 +185,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
         @Override
         public void onSuccess(MessageBean result) {
             isCollect=!isCollect;
+            updateUI();
         }
 
         @Override

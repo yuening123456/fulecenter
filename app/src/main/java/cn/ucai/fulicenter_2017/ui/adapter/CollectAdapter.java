@@ -87,7 +87,6 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onSuccess(MessageBean result) {
 
                         }
-
                         @Override
                         public void onError(String error) {
 

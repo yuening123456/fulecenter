@@ -61,8 +61,13 @@ public class CollectsActivity extends AppCompatActivity {
         initDialog();
         model = new UserModel();
         initViw();
-        loadData();
         setListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 
     private void initDialog() {
