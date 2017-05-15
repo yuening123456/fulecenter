@@ -14,9 +14,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter_2017.R;
+import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
 import cn.ucai.fulicenter_2017.application.I;
 import cn.ucai.fulicenter_2017.data.bean.CollectBean;
+import cn.ucai.fulicenter_2017.data.bean.MessageBean;
+import cn.ucai.fulicenter_2017.data.bean.User;
+import cn.ucai.fulicenter_2017.data.net.IUserModel;
+import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
+import cn.ucai.fulicenter_2017.data.net.UserModel;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
+import cn.ucai.fulicenter_2017.ui.activity.CollectsActivity;
 import cn.ucai.fulicenter_2017.ui.activity.GoodDetailsActivity;
 
 /**
@@ -26,6 +33,7 @@ import cn.ucai.fulicenter_2017.ui.activity.GoodDetailsActivity;
 public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<CollectBean> list;
+    IUserModel model;
 
     boolean isMore = true;
     @BindView(R.id.del)
@@ -43,6 +51,7 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public CollectAdapter(Context context, ArrayList<CollectBean> list) {
         this.context = context;
         this.list = list;
+        model=new UserModel();
     }
 
     @Override
@@ -58,7 +67,7 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder parent, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder parent, final int position) {
         if (position == getItemCount() - 1) {
             FooterHolder footerHolder = (FooterHolder) parent;
             footerHolder.tvFooter.setText(getFooter());
@@ -69,6 +78,25 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             GoodsViewHolder goodsViewHolder = (GoodsViewHolder) parent;
             goodsViewHolder.tvUserName.setText(bean.getGoodsName());
             ImageLoader.downloadImg(context, goodsViewHolder.ivAvatar, bean.getGoodsThumb());
+            final User user = FuLiCenterApplication.getInstance().getCurrentUser();
+            goodsViewHolder.del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.removeCollect(context, String.valueOf(bean.getGoodsId()), user.getMuserName(), new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+                    list.remove(list.get(position));
+                    notifyDataSetChanged();
+                }
+            });
             goodsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
