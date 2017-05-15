@@ -96,7 +96,6 @@ public class CategoryFragment extends Fragment {
                         if (result != null) {
                             groupList = ResultUtils.array2List(result);
                             for (int i1 = 0; i1 < groupList.size(); i1++) {
-                                L.e("main","loadCategoryGroup.result,i1="+i1);
                                 childList.add(new ArrayList<CategoryChildBean>());
                                 loadChildData(groupList.get(i1).getId(),i1);
                             }
@@ -106,7 +105,6 @@ public class CategoryFragment extends Fragment {
                     }
                     @Override
                     public void onError(String error) {
-                        L.e("main", "error" + error);
                         pd.dismiss();
                         setListVisibility(false);
                     }
@@ -121,7 +119,6 @@ public class CategoryFragment extends Fragment {
                 if(result!=null){
                     ArrayList<CategoryChildBean> list=ResultUtils.array2List(result);
                     childList.set(index,list);
-                    L.e("main","loadCategoryChild.result.index="+index);
                 }
 
                 if(groupCount==groupList.size()){

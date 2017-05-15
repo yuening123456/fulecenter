@@ -1,12 +1,14 @@
 package cn.ucai.fulicenter_2017.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +54,7 @@ public class CollectsActivity extends AppCompatActivity {
     int mPageId = I.PAGE_ID_DEFAULT;
     int mPageSize = I.PAGE_SIZE_DEFAULT;
     Unbinder bind;
+    ArrayList<CollectBean> CollectList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,14 +64,10 @@ public class CollectsActivity extends AppCompatActivity {
         initDialog();
         model = new UserModel();
         initViw();
+        loadData();
         setListener();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadData();
-    }
 
     private void initDialog() {
         pd = new ProgressDialog(this);
@@ -161,7 +160,7 @@ public class CollectsActivity extends AppCompatActivity {
                 setListVisibility(true);
                 if (result != null) {
                     ArrayList<CollectBean> list = ResultUtils.array2List(result);
-                    L.e("main","list="+list);
+
                     if (mPageId == 1) {
                         adapter = null;
                     }
@@ -178,7 +177,7 @@ public class CollectsActivity extends AppCompatActivity {
 
             @Override
             public void onError(String error) {
-                L.e("main", "error" + error);
+
                 srfl.setRefreshing(false);
                 tvDown.setVisibility(View.GONE);
                 if (adapter == null || adapter.getItemCount() == 1) {
@@ -192,10 +191,20 @@ public class CollectsActivity extends AppCompatActivity {
 
     private void updateUI(ArrayList<CollectBean> list) {
         if (adapter == null) {
-            adapter = new CollectAdapter(this, list);
+            CollectList=new ArrayList<>();
+            CollectList.addAll(list);
+            adapter = new CollectAdapter(this, CollectList);
             rvGoods.setAdapter(adapter);
+
         } else {
-            adapter.addList(list);
+            if(mPageId==1){
+                CollectList.clear();
+                CollectList.addAll(list);
+                adapter.initData(list);
+            }else{
+                CollectList.addAll(list);
+                adapter.addList(list);
+            }
 
         }
     }
@@ -209,6 +218,21 @@ public class CollectsActivity extends AppCompatActivity {
     @OnClick(R.id.layout_back_ground)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==I.REQUEST_CODE_GO_DETAIL&&resultCode==RESULT_OK){
+            int goodId=data.getIntExtra(I.Goods.KEY_GOODS_ID,0);
+            boolean isCollect=data.getBooleanExtra(I.Goods.KEY_IS_COLLECT,true);
+            if(!isCollect){
+                CollectList.remove(new CollectBean(goodId));
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+
     }
 }
 

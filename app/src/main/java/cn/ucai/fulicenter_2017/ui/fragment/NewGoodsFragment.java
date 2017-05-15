@@ -182,7 +182,6 @@ public class NewGoodsFragment extends Fragment {
                     }
                     @Override
                     public void onError(String error) {
-                        L.e("main", "error" + error);
                         srfl.setRefreshing(false);
                         tvDown.setVisibility(View.GONE);
                         if(adapter==null||adapter.getItemCount()==1){

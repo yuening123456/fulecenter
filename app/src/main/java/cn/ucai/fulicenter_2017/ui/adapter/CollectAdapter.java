@@ -3,6 +3,7 @@ package cn.ucai.fulicenter_2017.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ import cn.ucai.fulicenter_2017.data.net.UserModel;
 import cn.ucai.fulicenter_2017.data.utils.ImageLoader;
 import cn.ucai.fulicenter_2017.ui.activity.CollectsActivity;
 import cn.ucai.fulicenter_2017.ui.activity.GoodDetailsActivity;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Created by Administrator on 2017/5/4 0004.
@@ -85,22 +88,26 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     model.removeCollect(context, String.valueOf(bean.getGoodsId()), user.getMuserName(), new OnCompleteListener<MessageBean>() {
                         @Override
                         public void onSuccess(MessageBean result) {
-
+                            list.remove(position);
+                            notifyDataSetChanged();
                         }
                         @Override
                         public void onError(String error) {
 
                         }
                     });
-                    list.remove(list.get(position));
-                    notifyDataSetChanged();
+
                 }
             });
             goodsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, GoodDetailsActivity.class)
-                            .putExtra(I.GoodsDetails.KEY_GOODS_ID, bean.getGoodsId()));
+                    ((CollectsActivity)context).startActivityForResult(
+                            new Intent(context,GoodDetailsActivity.class)
+                            .putExtra(I.GoodsDetails.KEY_GOODS_ID, bean.getGoodsId()),
+                            I.REQUEST_CODE_GO_DETAIL);
+                    Log.i("main","CollectAdapter"+"onClick()");
+
                 }
             });
 
@@ -152,7 +159,6 @@ public class CollectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class FooterHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvFooter)
         TextView tvFooter;
-
         FooterHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

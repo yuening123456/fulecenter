@@ -152,13 +152,11 @@ public class NewGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         result= (int) (right.getAddTime()-left.getAddTime());
                         break;
                 }
-                L.e("main",""+result);
                 return result;
             }
 
             private int getPrice(String currencyPrice) {
                 String price = currencyPrice.substring(currencyPrice.indexOf("￥") + 1);
-                L.i("main","getPrice"+price);
                 return  Integer.parseInt(price) ;
             }
         });

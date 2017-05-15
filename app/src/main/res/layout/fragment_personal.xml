@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/orange">
+
         <TextView
             android:id="@+id/setting"
             android:layout_width="wrap_content"
@@ -17,173 +17,196 @@
             android:textSize="20sp"
             android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:padding="10dp"/>
+            android:padding="10dp" />
     </RelativeLayout>
-    <RelativeLayout
-        android:background="@color/orange"
-        android:id="@+id/layout_setting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/setting">
-        <ImageView
-            android:layout_marginLeft="10dp"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:id="@+id/iv_PersonalAvatar"/>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/tvPersonalUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我"
-            android:textSize="20sp"
-            android:layout_toRightOf="@id/iv_PersonalAvatar"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"/>
-        <ImageView
-            android:layout_marginTop="5dp"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_toRightOf="@id/tvPersonalUserName"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/tb_icon_home_qrcode_normal"/>
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#f30"
-        >
-      <LinearLayout
-          android:id="@+id/collect"
-          android:layout_weight="1"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          >
-          <TextView
-              android:id="@+id/tvCollect"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="0"
-              android:textSize="19sp"
-              android:gravity="center"
-              android:textColor="@color/white"/>
-          <TextView
-              android:layout_gravity="center_horizontal"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="收藏的宝贝"
-              android:textColor="@color/white"
-              android:textSize="19dp"
-              android:layout_alignParentBottom="true"/>
-      </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="19sp"
-                android:gravity="center"
-                android:textColor="@color/white"/>
-            <TextView
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="收藏的店铺"
-                android:textColor="@color/white"
-                android:textSize="19dp"
-                android:layout_alignParentBottom="true"/>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="19sp"
-                android:gravity="center"
-                android:textColor="@color/white"/>
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="我的足迹"
-                android:textColor="@color/white"
-                android:textSize="19dp"
-                android:layout_alignParentBottom="true"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:background="@color/white"
-        android:layout_marginTop="5dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的订单"
-            android:textSize="19sp"
-            android:textColor="#000"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            />
-        <TextView
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="查看全部订单信息"
-            android:layout_gravity="right|center_vertical"
-            android:gravity="right"
-            android:textSize="13dp"
-            android:layout_marginRight="25dp"
-            android:drawableRight="@drawable/right_arrow_icon"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-       >
-        <ImageView
-            android:layout_width="0dp"
+            android:orientation="vertical">
+        <RelativeLayout
+            android:background="@color/orange"
+            android:id="@+id/layout_setting"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/order_list1"
-            android:layout_gravity="center_vertical"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/order_list2"
-            android:layout_gravity="center_vertical"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/order_list3"
-            android:layout_gravity="center_vertical"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/order_list4"
-            android:layout_gravity="center_vertical"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/order_list5"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
+            android:layout_below="@id/setting">
 
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:id="@+id/iv_PersonalAvatar" />
 
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tvPersonalUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我"
+                android:textSize="20sp"
+                android:layout_toRightOf="@id/iv_PersonalAvatar"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:layout_toRightOf="@id/tvPersonalUserName"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/tb_icon_home_qrcode_normal" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#f30">
+
+            <LinearLayout
+                android:id="@+id/collect"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCollect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="19sp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收藏的宝贝"
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:layout_alignParentBottom="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="19sp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="收藏的店铺"
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:layout_alignParentBottom="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="19sp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="我的足迹"
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:layout_alignParentBottom="true" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的订单"
+                android:textSize="19sp"
+                android:textColor="#000"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="查看全部订单信息"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="right"
+                android:textSize="13dp"
+                android:layout_marginRight="25dp"
+                android:drawableRight="@drawable/right_arrow_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/order_list1"
+                android:layout_gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/order_list2"
+                android:layout_gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/order_list3"
+                android:layout_gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/order_list4"
+                android:layout_gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/order_list5"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+</LinearLayout>
+    </ScrollView>
 </LinearLayout>

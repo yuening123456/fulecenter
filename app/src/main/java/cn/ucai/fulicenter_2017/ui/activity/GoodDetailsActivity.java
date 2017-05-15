@@ -3,6 +3,7 @@ package cn.ucai.fulicenter_2017.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -103,7 +104,6 @@ public class GoodDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
                 showView(result);
-                L.e("main", "result" + result.toString());
             }
             @Override
             public void onError(String error) {
@@ -157,6 +157,16 @@ public class GoodDetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.backClickArea)
     public void back(View view) {
+        setResult(RESULT_OK,
+                new Intent().putExtra(I.Goods.KEY_GOODS_ID,good_id).putExtra(I.Goods.KEY_IS_COLLECT,isCollect));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,good_id)
+                .putExtra(I.Goods.KEY_IS_COLLECT,true));
         finish();
     }
 
