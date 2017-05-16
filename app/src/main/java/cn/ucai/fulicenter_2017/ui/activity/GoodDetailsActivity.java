@@ -67,6 +67,8 @@ public class GoodDetailsActivity extends AppCompatActivity {
     RelativeLayout layoutBackGround;
     User user;
     boolean isCollect = false;
+    @BindView(R.id.shopping)
+    TextView shopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +144,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
         tvCurrencyPrice.setText(result.getCurrencyPrice());
         tvGoodsName.setText(result.getGoodsName());
         tvGoodsEnglishName.setText(result.getGoodsEnglishName());
+        shopping.setText(result.getShopPrice());
         goodsBrief.loadDataWithBaseURL(null, result.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
         PropertiesBean[] properties = result.getProperties();
         aslv.startPlay(this, getGoodsList(properties), flowIndicator);
@@ -221,21 +224,24 @@ public class GoodDetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.iv_cart)
     public void onCart() {
-        if(user!=null){
-          userModel.addCart(this, good_id, user.getMuserName(),1, true, new OnCompleteListener<MessageBean>() {
-              @Override
-              public void onSuccess(MessageBean result) {
-                  if(result!=null&&result.isSuccess()){
-                  CommonUtils.showLongToast("添加购物车成功");
-                  }
-              }
-              @Override
-              public void onError(String error) {
+        if (user != null) {
+            userModel.addCart(this, good_id, user.getMuserName(), I.ADD_CART_COUNT_DEFAULT, false, new OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result != null && result.isSuccess()) {
+                        CommonUtils.showLongToast(R.string.add_goods_success);
+                    } else {
+                        CommonUtils.showLongToast(R.string.add_goods_fail);
+                    }
+                }
 
-              }
-          });
-        }else{
-            startActivityForResult(new Intent(this,LoginActivity.class),I.ACTION_CART_ADD);
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showLongToast(R.string.add_goods_fail);
+                }
+            });
+        } else {
+            startActivityForResult(new Intent(this, LoginActivity.class), 0);
         }
     }
 
