@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     Context context;
     ArrayList<CartBean> list;
 
+    CompoundButton.OnCheckedChangeListener cbkListener;
+
+    public void setCbkListener(CompoundButton.OnCheckedChangeListener cbkListener) {
+        this.cbkListener = cbkListener;
+    }
+
     public CartAdapter(Context context, ArrayList<CartBean> list) {
         this.context = context;
         this.list = list;
@@ -42,6 +49,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
        holder.bind(position);
+
 
     }
 
@@ -81,12 +89,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 ImageLoader.downloadImg(context,ivCartThumb,goods.getGoodsThumb());
              }
              cbCartSelected.setChecked(bean.isChecked());
+             cbCartSelected.setOnCheckedChangeListener(cbkListener);
+             cbCartSelected.setTag(position);
+
              tvCartCount.setText("("+bean.getCount()+")");
              ivCartThumb.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
                      ((MainActivity)context).startActivityForResult(new Intent(context, GoodDetailsActivity.class)
                              .putExtra(I.GoodsDetails.KEY_GOODS_ID,bean.getGoodsId()),0);
+
                  }
              });
 

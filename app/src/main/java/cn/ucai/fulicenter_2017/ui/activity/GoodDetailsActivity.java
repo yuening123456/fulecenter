@@ -144,7 +144,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
         tvCurrencyPrice.setText(result.getCurrencyPrice());
         tvGoodsName.setText(result.getGoodsName());
         tvGoodsEnglishName.setText(result.getGoodsEnglishName());
-        shopping.setText(result.getShopPrice());
+        shopping.setText(result.getRankPrice());
         goodsBrief.loadDataWithBaseURL(null, result.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
         PropertiesBean[] properties = result.getProperties();
         aslv.startPlay(this, getGoodsList(properties), flowIndicator);
