@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/fragment_new_goods" />
+<RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/layout_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/red"
+            android:text="结算"
+            android:id="@+id/btn_Settlement"/>
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="aaaa"
+            android:layout_toLeftOf="@id/btn_Settlement"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/orange"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计:"
+            android:layout_toLeftOf="@id/total"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/orange"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="节省:"
+            android:layout_toLeftOf="@id/total"
+            android:layout_below="@id/total"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/red"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="aaaa"
+            android:layout_toLeftOf="@id/btn_Settlement"
+            android:layout_below="@id/total"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/red"
+            android:textSize="18dp"
+            android:id="@+id/tv_save_price"/>
+    </RelativeLayout>
+
+</RelativeLayout>
