@@ -27,6 +27,7 @@ import cn.ucai.fulicenter_2017.application.FuLiCenterApplication;
 import cn.ucai.fulicenter_2017.data.bean.BoutiqueBean;
 import cn.ucai.fulicenter_2017.data.bean.CartBean;
 import cn.ucai.fulicenter_2017.data.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter_2017.data.bean.MessageBean;
 import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.net.GoodsModel;
 import cn.ucai.fulicenter_2017.data.net.IGoodsModel;
@@ -188,6 +189,7 @@ public class CartFragment extends Fragment {
         if (adapter == null) {
             adapter = new CartAdapter(getContext(),list);
             adapter.setCbkListener(cbkListener);
+            adapter.setClickListener(clickListener);
             rvGoods.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
@@ -233,4 +235,80 @@ public class CartFragment extends Fragment {
             sumPrice();
         }
     };
+    View.OnClickListener clickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+                case R.id.iv_cart_add:
+                  final int   position= (int) v.getTag();
+                    updateCart(position,1);
+                    break;
+                case R.id.iv_cart_del:
+                    final int positions = (int) v.getTag();
+                    if(list!=null) {
+                        final CartBean bean = list.get(positions);
+                        if (bean.getCount() > 1) {
+                            model.updateCart(getContext(), bean.getId(), bean.getCount() - 1, false, new OnCompleteListener<MessageBean>() {
+                                @Override
+                                public void onSuccess(MessageBean result) {
+                                    list.get(positions).setCount(bean.getCount() - 1);
+                                    sumPrice();
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onError(String error) {
+
+                                }
+                            });
+                        }
+                        if (bean.getCount() == 1) {
+                            model.removeCart(getContext(), bean.getId(), new OnCompleteListener<MessageBean>() {
+                                @Override
+                                public void onSuccess(MessageBean result) {
+                                    list.remove(positions);
+                                    sumPrice();
+                                    adapter.notifyDataSetChanged();
+                                    L.e("main","updateCart,list.size()="+list.size());
+                                    if(list.size()==0){
+                                        setListVisibility(false,false);
+                                    }
+                                }
+                                @Override
+                                public void onError(String error) {
+
+                                }
+                            });
+                        }
+                    }else{
+                        setListVisibility(false,false);
+                    }
+                    break;
+
+            }
+        }
+    };
+
+    private void updateCart(final int position, final int count) {
+        final CartBean bean = list.get(position);
+        model.updateCart(getContext(), bean.getId(), bean.getCount() + count, false, new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if(result!=null&&result.isSuccess()){
+                    list.get(position).setCount(bean.getCount()+count);
+                    sumPrice();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
+    }
+
+
 }
