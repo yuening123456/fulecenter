@@ -85,7 +85,6 @@ public class CartFragment extends Fragment {
         initDialog();
         model = new UserModel();
         initViw();
-        loadData();
         setListener();
     }
 
@@ -93,6 +92,12 @@ public class CartFragment extends Fragment {
         pd = new ProgressDialog(getContext());
         pd.setMessage(getString(R.string.load_more));
         pd.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 
     private void initViw() {
@@ -125,9 +130,11 @@ public class CartFragment extends Fragment {
         tvDown.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
-    void setListVisibility(boolean visibility) {
+    void setListVisibility(boolean visibility,boolean isError) {
+        tvNore.setText(isError?"网络请求失败":"购物车空空的。。");
         tvNore.setVisibility(visibility ? View.GONE : View.VISIBLE);
         srfl.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        layoutCart.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     @OnClick(R.id.tv_nore)
@@ -145,19 +152,29 @@ public class CartFragment extends Fragment {
                 public void onSuccess(CartBean[] result) {
                     pd.dismiss();
                     setLayoutVisibility(false);
-                    setListVisibility(true);
+                    setListVisibility(true,false);
                     list.clear();
                     if (result != null) {
                         list.addAll(ResultUtils.array2List(result));
                         updateUI();
+                        L.e("main", "list.size=" + list.size());
+                        if (list.size() == 0) {
+                            setListVisibility(false, false);
+                        } else {
+                            setListVisibility(true, false);
+                        }
+                    } else {
+                        setListVisibility(false,false);
                     }
                 }
 
                 @Override
                 public void onError(String error) {
+                    pd.dismiss();
                     L.e("main", "error" + error);
-                    srfl.setRefreshing(false);
-                    tvDown.setVisibility(View.GONE);
+                    setLayoutVisibility(false);
+                    list.clear();
+                   setListVisibility(false,true);
                 }
             });
         }
@@ -172,8 +189,8 @@ public class CartFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
-
     }
+
 
     @Override
     public void onDestroyView() {

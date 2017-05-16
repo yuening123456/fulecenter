@@ -203,7 +203,7 @@ public class CollectsActivity extends AppCompatActivity {
                 adapter.initData(list);
             }else{
                 CollectList.addAll(list);
-                adapter.addList(list);
+//                adapter.addList(list);
             }
 
         }

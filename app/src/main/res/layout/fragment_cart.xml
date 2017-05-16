@@ -6,6 +6,7 @@
 
     <include layout="@layout/fragment_new_goods" />
 <RelativeLayout
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:id="@+id/layout_cart"
         android:layout_width="match_parent"
@@ -54,5 +55,4 @@
             android:textSize="18dp"
             android:id="@+id/tv_save_price"/>
     </RelativeLayout>
-
 </RelativeLayout>

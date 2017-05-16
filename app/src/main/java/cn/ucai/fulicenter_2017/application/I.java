@@ -64,6 +64,7 @@ public interface I {
     int ACTION_CART_ADD = 1;
     int ACTION_CART_DEL = 2;
     int ACTION_CART_UPDATA = 3;
+    int ADD_CART_COUNT_DEFAULT = 1;
 
     interface Goods {
         String KEY_RESULT = "result";
