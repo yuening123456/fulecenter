@@ -263,7 +263,7 @@ public class CartFragment extends Fragment {
                                 public void onSuccess(MessageBean result) {
                                     list.remove(positions);
                                     sumPrice();
-                                    adapter.notifyItemRemoved(positions);
+                                    adapter.notifyDataSetChanged();
                                     L.e("main","updateCart,list.size()="+list.size());
                                     if(list.size()==0){
                                         setListVisibility(false,false);
