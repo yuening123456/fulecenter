@@ -91,7 +91,6 @@ public class CategoryFragment extends Fragment {
                 new OnCompleteListener<CategoryGroupBean[]>() {
                     @Override
                     public void onSuccess(CategoryGroupBean[] result) {
-
                         setListVisibility(true);
                         if (result != null) {
                             groupList = ResultUtils.array2List(result);

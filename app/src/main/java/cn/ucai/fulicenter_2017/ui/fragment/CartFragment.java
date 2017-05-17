@@ -249,19 +249,7 @@ public class CartFragment extends Fragment {
                     if(list!=null) {
                         final CartBean bean = list.get(positions);
                         if (bean.getCount() > 1) {
-                            model.updateCart(getContext(), bean.getId(), bean.getCount() - 1, false, new OnCompleteListener<MessageBean>() {
-                                @Override
-                                public void onSuccess(MessageBean result) {
-                                    list.get(positions).setCount(bean.getCount() - 1);
-                                    sumPrice();
-                                    adapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onError(String error) {
-
-                                }
-                            });
+                           updateCart(positions,-1);
                         }
                         if (bean.getCount() == 1) {
                             model.removeCart(getContext(), bean.getId(), new OnCompleteListener<MessageBean>() {
