@@ -171,6 +171,7 @@ public class CartFragment extends Fragment {
                     } else {
                         setListVisibility(false,false);
                     }
+                    sumPrice();
                 }
 
                 @Override
