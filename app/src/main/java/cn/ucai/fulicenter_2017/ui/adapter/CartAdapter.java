@@ -86,6 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
      public void bind(int position) {
          final CartBean bean = list.get(position);
+         cbCartSelected.setOnCheckedChangeListener(null);
          if(bean!=null){
              GoodsDetailsBean goods = bean.getGoods();
              if(goods!=null){
@@ -98,7 +99,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
              cbCartSelected.setTag(position);
              ivCartAdd.setOnClickListener(clickListener);
              ivCartAdd.setTag(position);
-
              ivCartDel.setTag(position);
              ivCartDel.setOnClickListener(clickListener);
 

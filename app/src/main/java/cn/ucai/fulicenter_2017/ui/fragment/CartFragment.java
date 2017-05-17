@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,6 +192,7 @@ public class CartFragment extends Fragment {
             adapter.setCbkListener(cbkListener);
             adapter.setClickListener(clickListener);
             rvGoods.setAdapter(adapter);
+
         } else {
             adapter.notifyDataSetChanged();
         }
@@ -231,8 +233,11 @@ public class CartFragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position= (int) buttonView.getTag();
-            list.get(position).setChecked(isChecked);
-            sumPrice();
+            if(isChecked){
+                list.get(position).setChecked(isChecked);
+                sumPrice();
+                Log.i("main","onCheckedChanged(),isChecked"+isChecked);
+            }
         }
     };
     View.OnClickListener clickListener=new View.OnClickListener() {
@@ -257,7 +262,7 @@ public class CartFragment extends Fragment {
                                 public void onSuccess(MessageBean result) {
                                     list.remove(positions);
                                     sumPrice();
-                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyItemRemoved(positions);
                                     L.e("main","updateCart,list.size()="+list.size());
                                     if(list.size()==0){
                                         setListVisibility(false,false);
