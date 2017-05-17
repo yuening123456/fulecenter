@@ -69,7 +69,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
     boolean isCollect = false;
     @BindView(R.id.shopping)
     TextView shopping;
-
+    GoodsDetailsBean mGoodsDetailsBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +106,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
         model.loadGoodDetails(this, good_id, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
+                mGoodsDetailsBean=result;
                 showView(result);
             }
 
@@ -230,6 +231,7 @@ public class GoodDetailsActivity extends AppCompatActivity {
                 public void onSuccess(MessageBean result) {
                     if (result != null && result.isSuccess()) {
                         CommonUtils.showLongToast(R.string.add_goods_success);
+                        sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART).putExtra(I.Cart.class.toString(),mGoodsDetailsBean));
                     } else {
                         CommonUtils.showLongToast(R.string.add_goods_fail);
                     }
