@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.pingplusplus.android.PingppLog;
 import com.pingplusplus.libone.PaymentHandler;
 import com.pingplusplus.libone.PingppOne;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+=======
+>>>>>>> origin/master
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,13 +73,18 @@ public class OrderActivity extends AppCompatActivity {
     TextView tvOrderBuy;
     @BindView(R.id.layout_order)
     RelativeLayout layoutOrder;
+<<<<<<< HEAD
     int price;
     private static String URL = "http://218.244.151.190/demo/charge";
+=======
+
+>>>>>>> origin/master
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
+<<<<<<< HEAD
          price = getIntent().getIntExtra(I.Cart.PAY_PRICE,0);
         tvOrderPrice.setText("合计：￥ "+price);
 
@@ -88,16 +96,25 @@ public class OrderActivity extends AppCompatActivity {
         PingppOne.CONTENT_TYPE = "application/json";
 
         PingppLog.DEBUG = true;
+=======
+        int price = getIntent().getIntExtra(I.Cart.PAY_PRICE,0);
+        tvOrderPrice.setText("合计：￥ "+price);
+>>>>>>> origin/master
     }
 
     @OnClick(R.id.tv_order_buy)
     public void onBuy() {
         if (checkInput()) {
+<<<<<<< HEAD
             onPlay();
+=======
+            startActivity(new Intent());
+>>>>>>> origin/master
 
         }
     }
 
+<<<<<<< HEAD
     private void onPlay() {
         {
             // 产生个订单号
@@ -173,6 +190,39 @@ public class OrderActivity extends AppCompatActivity {
         }
         return true;
     }
+=======
+        private boolean checkInput(){
+            String receiveName=edOrderName.getText().toString();
+            if(TextUtils.isEmpty(receiveName)){
+                edOrderName.setError("收货人姓名不能为空");
+                edOrderName.requestFocus();
+                return false;
+            }
+            String mobile=edOrderPhone.getText().toString();
+            if(TextUtils.isEmpty(mobile)){
+                edOrderPhone.setError("手机号码不能为空");
+                edOrderPhone.requestFocus();
+                return false;
+            }
+            if(!mobile.matches("[\\d]{11}")){
+                edOrderPhone.setError("手机号码格式错误");
+                edOrderPhone.requestFocus();
+                return false;
+            }
+            String area=spinOrderProvince.getSelectedItem().toString();
+            if(TextUtils.isEmpty(area)){
+                Toast.makeText(OrderActivity.this,"收货地区不能为空",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            String address=edOrderStreet.getText().toString();
+            if(TextUtils.isEmpty(address)){
+                edOrderStreet.setError("街道地址不能为空");
+                edOrderStreet.requestFocus();
+                return false;
+            }
+            return true;
+        }
+>>>>>>> origin/master
 
     @OnClick(R.id.layout_back_ground)
     public void onBack() {
