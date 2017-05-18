@@ -37,8 +37,10 @@ import cn.ucai.fulicenter_2017.data.bean.User;
 import cn.ucai.fulicenter_2017.data.net.IUserModel;
 import cn.ucai.fulicenter_2017.data.net.OnCompleteListener;
 import cn.ucai.fulicenter_2017.data.net.UserModel;
+import cn.ucai.fulicenter_2017.data.utils.CommonUtils;
 import cn.ucai.fulicenter_2017.data.utils.L;
 import cn.ucai.fulicenter_2017.data.utils.ResultUtils;
+import cn.ucai.fulicenter_2017.ui.activity.OrderActivity;
 import cn.ucai.fulicenter_2017.ui.adapter.CartAdapter;
 
 /**
@@ -71,6 +73,7 @@ public class CartFragment extends Fragment {
     ArrayList<CartBean> list = new ArrayList<>();
     @BindView(R.id.newGoodsFragment)
     RelativeLayout newGoodsFragment;
+    int sumPrice ,savePrice;
 
     public CartFragment() {
         // Required empty public constructor
@@ -121,8 +124,8 @@ public class CartFragment extends Fragment {
 
     private void setListener() {
         setPullDownListener();
-        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATA_CART);
-        getContext().registerReceiver(mReceiver,filter);
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATA_CART);
+        getContext().registerReceiver(mReceiver, filter);
     }
 
     private void setPullDownListener() {
@@ -213,8 +216,8 @@ public class CartFragment extends Fragment {
     }
 
     private void sumPrice() {
-        int sumPrice = 0;
-        int savePrice = 0;
+        sumPrice = 0;
+        savePrice = 0;
         if (list.size() > 0) {
             for (CartBean bean : list) {
                 if (bean.isChecked()) {
@@ -267,7 +270,7 @@ public class CartFragment extends Fragment {
                         Log.i("main", "bean.getId():" + bean.getId());
                         if (bean.getCount() > 1) {
                             updateCart(positions, -1);
-                        }else {
+                        } else {
                             model.removeCart(getContext(), bean.getId(), new OnCompleteListener<MessageBean>() {
                                 @Override
                                 public void onSuccess(MessageBean result) {
@@ -317,28 +320,39 @@ public class CartFragment extends Fragment {
         });
 
     }
-    UpdateCartBroadCastReceiver mReceiver=new UpdateCartBroadCastReceiver();
+
+    UpdateCartBroadCastReceiver mReceiver = new UpdateCartBroadCastReceiver();
+
+    @OnClick(R.id.btn_Settlement)
+    public void onViewClicked() {
+        if(sumPrice!=0){
+            startActivity(new Intent(getContext(),OrderActivity.class).putExtra(I.Cart.PAY_PRICE,sumPrice-savePrice));
+        }else{
+            CommonUtils.showLongToast("您还没有选择宝贝哦。。");
+        }
+    }
+
     class UpdateCartBroadCastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            GoodsDetailsBean bean= (GoodsDetailsBean) intent.getSerializableExtra(I.Cart.class.toString());
+            GoodsDetailsBean bean = (GoodsDetailsBean) intent.getSerializableExtra(I.Cart.class.toString());
             updateCarts(bean);
         }
 
         private void updateCarts(GoodsDetailsBean bean) {
-            boolean isHas=false;
+            boolean isHas = false;
             for (int i = 0; i < list.size(); i++) {
-                if(list.get(i).getGoodsId()==bean.getGoodsId()){
-                    list.get(i).setCount(list.get(i).getCount()+1);
-                    isHas=true;
+                if (list.get(i).getGoodsId() == bean.getGoodsId()) {
+                    list.get(i).setCount(list.get(i).getCount() + 1);
+                    isHas = true;
                     adapter.notifyDataSetChanged();
                     sumPrice();
                     return;
                 }
             }
-            if(!isHas){
-                CartBean cart=new CartBean();
+            if (!isHas) {
+                CartBean cart = new CartBean();
                 cart.setCount(1);
                 cart.setGoodsId(bean.getGoodsId());
                 cart.setChecked(true);
